@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/drawable-v24/gradation_black.xml" value="0.4036458333333333" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/drawable-v24/like_green_24dp.xml" value="0.4036458333333333" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/drawable-v24/like_white_120dp.xml" value="0.4036458333333333" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/drawable-v24/skip_white_120dp.xml" value="0.4036458333333333" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/drawable/chip_background.xml" value="0.2552083333333333" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/drawable/ic_image_35.xml" value="0.3828125" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/drawable/ic_round_edit_note_24.xml" value="0.4036458333333333" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/drawable/ic_round_settings_24.xml" value="0.4036458333333333" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/drawable/ic_settings.xml" value="0.3974358974358974" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/drawable/pawmance_logo.xml" value="0.23703703703703705" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/drawable/selected_background.xml" value="0.1703125" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/activity_launcher.xml" value="0.22" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/activity_match.xml" value="0.3875" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/activity_registration.xml" value="0.25" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/calendar_day.xml" value="0.36666666666666664" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/calendar_legend_day.xml" value="0.1814814814814815" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/chat_item.xml" value="0.3875" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/dropdown_menu_popup.xml" value="0.38333333333333336" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/fragment_base.xml" value="0.1" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/fragment_chat.xml" value="0.3875" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/fragment_conversation.xml" value="0.25" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/fragment_its_match.xml" value="0.25" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/fragment_match_pet.xml" value="0.33" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/fragment_my_location.xml" value="0.25" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/fragment_name_registration.xml" value="0.36666666666666664" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/fragment_pet_birthday.xml" value="0.25" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/fragment_pet_gender.xml" value="0.25" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/fragment_pet_name.xml" value="0.22" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/fragment_pet_photos.xml" value="0.25" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/fragment_pet_preference.xml" value="0.25" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/fragment_pet_progress.xml" value="0.36666666666666664" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/fragment_profile.xml" value="0.33" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/fragment_progress_update.xml" value="0.5" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/fragment_registration.xml" value="0.33" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/fragment_settings.xml" value="0.33" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/fragment_verify_phone_number.xml" value="0.33" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/my_message.xml" value="0.3875" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/pet_swipe_item.xml" value="0.33" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/layout/receiver_message.xml" value="0.36666666666666664" />
+        <entry key="..\:/Projects/thesis/pawmance/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2421875" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

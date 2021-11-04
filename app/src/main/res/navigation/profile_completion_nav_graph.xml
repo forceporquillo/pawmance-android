@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profile_completion_nav_graph"
+    app:startDestination="@id/petNameFragment">
+
+    <fragment
+        android:id="@+id/petNameFragment"
+        android:name="dev.forcecodes.pawmance.ui.pet.PetNameFragment"
+        tools:layout="@layout/fragment_pet_name">
+
+        <action
+            android:id="@+id/action_nameRegistrationFragment_to_petBirthdayFragment"
+            app:destination="@id/petBirthdayFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/petBirthdayFragment"
+        android:name="dev.forcecodes.pawmance.ui.birth.PetBirthdayFragment"
+        tools:layout="@layout/fragment_pet_birthday">
+        <action
+            android:id="@+id/action_petBirthdayFragment_to_petGenderFragment"
+            app:destination="@id/petGenderFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/petGenderFragment"
+        android:name="dev.forcecodes.pawmance.ui.gender.PetGenderFragment"
+        tools:layout="@layout/fragment_pet_gender">
+
+        <action
+            android:id="@+id/action_petGenderFragment_to_myLocationFragment"
+            app:destination="@id/myLocationFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/myLocationFragment"
+        android:name="dev.forcecodes.pawmance.ui.location.MyLocationFragment"
+        tools:layout="@layout/fragment_my_location">
+        <action
+            android:id="@+id/action_myLocationFragment_to_petPhotosFragment"
+            app:destination="@id/petPhotosFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/petPhotosFragment"
+        android:name="dev.forcecodes.pawmance.ui.photos.PetPhotosFragment" >
+        <action
+            android:id="@+id/action_petPhotosFragment_to_petPreferenceFragment"
+            app:destination="@id/petPreferenceFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/petPreferenceFragment"
+        android:name="dev.forcecodes.pawmance.ui.preference.PetPreferenceFragment"
+        tools:layout="@layout/fragment_pet_preference" />
+
+</navigation>

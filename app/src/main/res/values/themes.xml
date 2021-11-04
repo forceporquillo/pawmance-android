@@ -1,0 +1,48 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <!-- Base application theme. -->
+  <style name="Theme.PawMance" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <!-- Primary brand color. -->
+    <item name="colorPrimary">@color/black</item>
+    <item name="colorPrimaryVariant">@color/black</item>
+    <item name="colorOnPrimary">@color/white</item>
+    <!-- Secondary brand color. -->
+    <item name="colorSecondary">@color/black</item>
+    <item name="colorSecondaryVariant">@color/black</item>
+    <item name="colorOnSecondary">@color/black</item>
+    <item name="colorControlNormal">@color/black</item>
+    <!-- Status bar color. -->
+    <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
+    <item name="android:windowLightStatusBar">true</item>
+  </style>
+
+  <style name="TextBody1Style" parent="TextAppearance.AppCompat.Body1">
+    <item name="fontFamily">@font/product_sans_regular</item>
+  </style>
+
+  <style name="TextButtonStyle" parent="TextAppearance.MaterialComponents.Button">
+    <item name="fontFamily">@font/product_sans_bold</item>
+  </style>
+
+  <style name="LargeNumber" parent="TextAppearance.AppCompat.Body1">
+    <item name="fontFamily">@font/product_sans_regular</item>
+    <item name="android:textSize">22sp</item>
+  </style>
+
+  <style name="SelectableView">
+    <item name="android:foreground">?attr/selectableItemBackground</item>
+    <item name="android:focusable">true</item>
+    <item name="android:clickable">true</item>
+  </style>
+
+  <style name="PickerGalleryStyle" parent="Matisse.Zhihu">
+    <item name="colorPrimary">@color/black</item>
+    <item name="colorPrimaryDark">@color/black</item>
+    <item name="bottomToolbar.apply.textColor">@color/black</item>
+    <item name="toolbar">@style/ToolbarWhite</item>
+  </style>
+
+  <style name="ToolbarWhite" parent="Toolbar.Zhihu">
+    <item name="android:statusBarColor">@color/black</item>
+    <item name="android:windowLightStatusBar">true</item>
+  </style>
+</resources>

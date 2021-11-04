@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="dev.forcecodes.pawmance.ui.birth.PetBirthdayViewModel" />
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_marginBottom="24dp"
+        android:id="@+id/pet_birthday"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/black"
+        android:textSize="@dimen/title_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/product_sans_regular"
+        android:text="@string/pet_birthday" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_70"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        app:layout_constraintGuide_percent="0.7"
+        android:layout_height="0dp"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_30"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        app:layout_constraintGuide_percent="0.25"
+        android:layout_height="0dp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/day"
+        app:layout_constraintTop_toBottomOf="@id/pet_birthday"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="24dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:hint="@string/day"
+        app:layout_constraintEnd_toStartOf="@id/month"
+        android:layout_marginEnd="8dp"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/day_of_month_edit_text"
+            android:inputType="textAutoComplete|none"
+            android:focusableInTouchMode="false"
+            android:focusable="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/month"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/pet_birthday"
+        app:layout_constraintStart_toStartOf="@id/guideline_30"
+        app:layout_constraintEnd_toEndOf="@id/guideline_70"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:hint="@string/month"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/month_edit_text"
+            android:inputType="textAutoComplete|none"
+            android:focusableInTouchMode="false"
+            android:focusable="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/year"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toEndOf="@id/month"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pet_birthday"
+        android:layout_marginStart="8dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:hint="@string/year"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/year_edit_text"
+            android:inputType="textAutoComplete|none"
+            android:focusableInTouchMode="false"
+            android:focusable="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/day"
+        android:id="@+id/error_text_message"
+        android:textColor="@color/red"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="Error Message"
+        style="@style/TextBody1Style"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:enabled="@{viewModel.enableSubmit}"
+        android:onClick="@{(v) -> viewModel.onContinueClick()}"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textAppearance="@style/TextButtonStyle"
+        android:id="@+id/continue_button"
+        android:layout_width="match_parent"
+        android:layout_marginTop="32dp"
+        android:layout_height="wrap_content"
+        android:insetBottom="0dp"
+        android:insetTop="0dp"
+        android:text="@string/continue_text_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

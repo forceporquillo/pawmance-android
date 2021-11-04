@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/registration_nav_graph"
+    app:startDestination="@id/phoneRegistrationFragment">
+
+    <fragment
+        android:id="@+id/phoneRegistrationFragment"
+        android:name="dev.forcecodes.pawmance.ui.registration.PhoneRegistrationFragment"
+        tools:layout="@layout/fragment_registration">
+
+        <action
+            android:id="@+id/action_phoneRegistrationFragment_to_verifyPhoneNumberFragment"
+            app:destination="@id/verifyPhoneNumberFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/verifyPhoneNumberFragment"
+        android:name="dev.forcecodes.pawmance.ui.registration.VerifyPhoneNumberFragment"
+        tools:layout="@layout/fragment_verify_phone_number">
+
+        <action
+            android:id="@+id/action_verifyPhoneNumberFragment_to_profile_completion_nav_graph2"
+            app:destination="@id/profile_completion_nav_graph" />
+    </fragment>
+
+</navigation>
