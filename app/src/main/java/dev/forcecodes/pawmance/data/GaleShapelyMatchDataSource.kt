@@ -114,9 +114,8 @@ class PetMatchDataSource @Inject constructor(
       return flow {
         val possibleMatches = currentLocation()
           .map {
-            //  val from = LatLng(location.latitude, location.longitude)
-            val smNorthEdsa = LatLng(14.6568, 121.0304)
-            val haversineAlgorithm = HaversineAlgorithm(context, from = smNorthEdsa)
+            val from = LatLng(it.latitude, it.longitude)
+            val haversineAlgorithm = HaversineAlgorithm(context, from = from)
             filterPossibleMatchesInternal(
               haversineAlgorithm,
               myPetMetadata,
