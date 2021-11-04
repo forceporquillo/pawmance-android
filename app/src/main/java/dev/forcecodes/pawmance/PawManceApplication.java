@@ -8,7 +8,7 @@ import dev.forcecodes.pawmance.db.AppDatabase;
 import timber.log.Timber;
 
 @HiltAndroidApp
-public class PawManceApplication extends Application {
+public class PawManceApplication extends Application  {
 
   @Override
   public void onCreate() {
@@ -18,7 +18,5 @@ public class PawManceApplication extends Application {
     if (BuildConfig.DEBUG) {
       Timber.plant(new Timber.DebugTree());
     }
-
-    AppDatabase.createInstance(this);
   }
 }

@@ -5,22 +5,26 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import dev.forcecodes.pawmance.data.conversation.ConversationsDao
+import dev.forcecodes.pawmance.data.progress.PetProgress
+import dev.forcecodes.pawmance.data.progress.ProgressDao
 import dev.forcecodes.pawmance.model.Conversations
 
 @Database(
   entities = [
-    Conversations::class
+    Conversations::class,
+    PetProgress::class
   ],
-  version = 2, exportSchema = false
+  version = 1, exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
   abstract fun conversationDao(): ConversationsDao
+  abstract fun progressDao(): ProgressDao
 
   companion object {
     private var INSTANCE: AppDatabase? = null
 
     @JvmStatic
-    fun createInstance(context: Context): AppDatabase {
+    fun getInstance(context: Context): AppDatabase {
       synchronized(AppDatabase::class) {
         if (INSTANCE == null) {
           val database = Room.databaseBuilder(
@@ -34,11 +38,6 @@ abstract class AppDatabase : RoomDatabase() {
           INSTANCE = database
         }
       }
-      return INSTANCE!!
-    }
-
-    @JvmStatic
-    fun getInstance(): AppDatabase {
       return INSTANCE!!
     }
   }

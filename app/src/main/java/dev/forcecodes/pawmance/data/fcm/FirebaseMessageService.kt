@@ -2,12 +2,19 @@ package dev.forcecodes.pawmance.data.fcm
 
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import dagger.hilt.android.AndroidEntryPoint
+import dev.forcecodes.pawmance.data.conversation.ConversationsDao
 import dev.forcecodes.pawmance.db.AppDatabase
 import dev.forcecodes.pawmance.model.Conversations
 import dev.forcecodes.pawmance.utils.TimeUtils
 import timber.log.Timber
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class FirebaseMessageService : FirebaseMessagingService() {
+
+  @Inject
+  lateinit var conversationsDao: ConversationsDao
 
   override fun onNewToken(token: String) {
     super.onNewToken(token)
@@ -19,9 +26,7 @@ class FirebaseMessageService : FirebaseMessagingService() {
 
     val conversations = remoteMessage.mapToConversation()
 
-    AppDatabase.getInstance()
-      .conversationDao()
-      .insertMessage(conversations)
+    conversationsDao.insertMessage(conversations)
 
     Timber.e("Message received ${remoteMessage.senderId} content: ${remoteMessage.data["content"]}")
   }

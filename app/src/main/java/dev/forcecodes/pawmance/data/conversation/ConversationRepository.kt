@@ -23,14 +23,10 @@ interface ConversationRepository {
 }
 
 class ConversationRepositoryImpl @Inject constructor(
+  private val conversationsDao: ConversationsDao,
   @FcmMessageService private val pushMessageNotifierApi: PushMessageNotifierApi,
   @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ConversationRepository {
-
-  private val conversationDao by lazy {
-    AppDatabase.getInstance()
-      .conversationDao()
-  }
 
   override suspend fun sendMessage(
     messageData: MessageData,
@@ -58,18 +54,18 @@ class ConversationRepositoryImpl @Inject constructor(
         petId!!,
       )
 
-      conversationDao.insertMessage(conversation)
+      conversationsDao.insertMessage(conversation)
     }
   }
 
   override fun getConversations(petId: String): Flow<List<Conversations>> {
-    return conversationDao.getConversation(petId)
+    return conversationsDao.getConversation(petId)
   }
 
   override fun getAllConversations(): Flow<List<Conversations>> {
     return flow {
       emitAll(
-        conversationDao
+        conversationsDao
           .getAllConversations()
           .map { list ->
             list.distinctBy { conversations ->

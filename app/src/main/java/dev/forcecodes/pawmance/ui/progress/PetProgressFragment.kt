@@ -9,14 +9,11 @@ import androidx.core.os.bundleOf
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import com.devforcecodes.pawmance.R
 import com.devforcecodes.pawmance.databinding.CalendarDayBinding
 import com.devforcecodes.pawmance.databinding.CalendarLegendDayBinding
 import com.devforcecodes.pawmance.databinding.FragmentPetProgressBinding
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
 import com.kizitonwose.calendarview.model.CalendarDay
 import com.kizitonwose.calendarview.model.CalendarMonth
 import com.kizitonwose.calendarview.model.DayOwner
@@ -25,35 +22,32 @@ import com.kizitonwose.calendarview.ui.MonthHeaderFooterBinder
 import com.kizitonwose.calendarview.ui.ViewContainer
 import dagger.hilt.android.AndroidEntryPoint
 import dev.forcecodes.pawmance.binding.viewBinding
+import dev.forcecodes.pawmance.data.progress.PetProgress
 import dev.forcecodes.pawmance.ui.profile.PetProfileViewModel
 import dev.forcecodes.pawmance.utils.bindImageWith
 import dev.forcecodes.pawmance.utils.daysOfWeekFromLocale
 import dev.forcecodes.pawmance.utils.navigate
 import dev.forcecodes.pawmance.utils.repeatOnLifecycle
-import dev.forcecodes.pawmance.utils.Result
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.*
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class PetProgressFragment : Fragment(R.layout.fragment_pet_progress) {
 
   private val viewModel by viewModels<PetProfileViewModel>()
   private val binding by viewBinding(FragmentPetProgressBinding::bind)
+  private val progressViewModel by viewModels<PetProgressViewModel>()
 
   private var selectedDate: LocalDate? = null
 
   private val monthTitleFormatter = DateTimeFormatter.ofPattern("MMMM")
+
+  private val dayOfWeeks by lazy { daysOfWeekFromLocale() }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
@@ -62,44 +56,30 @@ class PetProgressFragment : Fragment(R.layout.fragment_pet_progress) {
       findNavController().navigateUp()
     }
 
-    val date = Calendar.getInstance()
+    getAllProgress()
+    observePetProfile()
+  }
 
-    val currentMonth = YearMonth.from(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
+  private fun observePetProfile() {
+    repeatOnLifecycle {
+      viewModel.petInfo.collect {
+        binding.petBreed.text = it?.petBreed()
+        binding.petNameMonths.text = it?.petName()
 
-    val daysOfWeek = daysOfWeekFromLocale()
-
-    binding.exFiveCalendar.setup(
-      currentMonth.minusMonths(10),
-      currentMonth.plusMonths(10),
-      daysOfWeek.first()
-    )
-    binding.exFiveCalendar.scrollToMonth(currentMonth)
-
-    class DayViewContainer(view: View) : ViewContainer(view) {
-      lateinit var day: CalendarDay
-      val binding = CalendarDayBinding.bind(view)
-
-      init {
-        view.setOnClickListener {
-          if (day.owner == DayOwner.THIS_MONTH) {
-            if (selectedDate != day.date) {
-              val oldDate = selectedDate
-              selectedDate = day.date
-
-              val calendarView = this@PetProgressFragment.binding.exFiveCalendar
-              calendarView.notifyDayChanged(day)
-              oldDate?.let { date -> calendarView.notifyDateChanged(date) }
-
-              navigate(
-                R.id.action_petProgressFragment_to_progressUpdateFragment,
-                bundleOf("day" to "${day.date}")
-              )
-            }
-          }
-        }
+        bindImageWith(binding.petProfile, it?.petPrimaryProfile())
       }
     }
+  }
 
+  private fun getAllProgress() {
+    repeatOnLifecycle {
+      progressViewModel.progress.collect { progressList ->
+        reloadViewDayBinderView(progressList ?: return@collect)
+      }
+    }
+  }
+
+  private fun reloadViewDayBinderView(progressList: List<PetProgress>) {
     binding.exFiveCalendar.dayBinder = object : DayBinder<DayViewContainer> {
       override fun bind(container: DayViewContainer, day: CalendarDay) {
         container.day = day
@@ -119,6 +99,12 @@ class PetProgressFragment : Fragment(R.layout.fragment_pet_progress) {
               R.color.dracula_bottom_toolbar_preview_text
             )
           )
+          val progress = progressList.find { it.day == day.date.toString() }
+
+          if (progress != null) {
+            flightBottomView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
+          }
+
           layout.setBackgroundResource(if (selectedDate == day.date) R.drawable.selected_background else 0)
         } else {
           textView.setTextColor(
@@ -136,12 +122,6 @@ class PetProgressFragment : Fragment(R.layout.fragment_pet_progress) {
       }
     }
 
-    observePetProfile()
-
-    class MonthViewContainer(view: View) : ViewContainer(view) {
-      val legendLayout = CalendarLegendDayBinding.bind(view).legendLayout
-    }
-
     binding.exFiveCalendar.monthHeaderBinder = object :
       MonthHeaderFooterBinder<MonthViewContainer> {
       override fun create(view: View) = MonthViewContainer(view)
@@ -150,7 +130,7 @@ class PetProgressFragment : Fragment(R.layout.fragment_pet_progress) {
         if (container.legendLayout.tag == null) {
           container.legendLayout.tag = month.yearMonth
           container.legendLayout.children.map { it as TextView }.forEachIndexed { index, tv ->
-            tv.text = daysOfWeek[index].getDisplayName(TextStyle.SHORT, Locale.ENGLISH)
+            tv.text = dayOfWeeks[index].getDisplayName(TextStyle.SHORT, Locale.ENGLISH)
               .uppercase(Locale.ENGLISH)
             tv.setTextColor(
               ContextCompat.getColor(
@@ -175,16 +155,48 @@ class PetProgressFragment : Fragment(R.layout.fragment_pet_progress) {
         binding.exFiveCalendar.notifyDateChanged(it)
       }
     }
+
+    val date = Calendar.getInstance()
+
+    val currentMonth = YearMonth.from(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
+
+    binding.exFiveCalendar.setup(
+      currentMonth.minusMonths(10),
+      currentMonth.plusMonths(10),
+      dayOfWeeks.first()
+    )
+
+    binding.exFiveCalendar.scrollToMonth(currentMonth)
+
   }
 
-  private fun observePetProfile() {
-    repeatOnLifecycle {
-      viewModel.petInfo.collect {
-        binding.petBreed.text = it?.petBreed()
-        binding.petNameMonths.text = it?.petName()
+  inner class MonthViewContainer(view: View) : ViewContainer(view) {
+    val legendLayout = CalendarLegendDayBinding.bind(view).legendLayout
+  }
 
-        bindImageWith(binding.petProfile, it?.petPrimaryProfile())
+  inner class DayViewContainer(view: View) : ViewContainer(view) {
+    lateinit var day: CalendarDay
+    val binding = CalendarDayBinding.bind(view)
+
+    init {
+      view.setOnClickListener {
+        if (day.owner == DayOwner.THIS_MONTH) {
+          if (selectedDate != day.date) {
+            val oldDate = selectedDate
+            selectedDate = day.date
+
+            val calendarView = this@PetProgressFragment.binding.exFiveCalendar
+            calendarView.notifyDayChanged(day)
+            oldDate?.let { date -> calendarView.notifyDateChanged(date) }
+
+            navigate(
+              R.id.action_petProgressFragment_to_progressUpdateFragment,
+              bundleOf("day" to "${day.date}")
+            )
+          }
+        }
       }
     }
   }
+
 }
