@@ -116,8 +116,13 @@ class PetMatchDataSource @Inject constructor(
     ): Flow<List<Pet>> {
       return flow {
         val possibleMatches = currentLocation()
-          .map {
-            val from = LatLng(it.latitude, it.longitude)
+          .map { location ->
+            val from =   if (location == null) {
+              val myLocation = myPetMetadata.second?.location?.coordinates
+              LatLng(myLocation?.lat ?: 0.0, myLocation?.lng ?: 0.0)
+            } else {
+              LatLng(location.latitude, location.longitude)
+            }
             val haversineAlgorithm = HaversineAlgorithm(context, from = from)
             filterPossibleMatchesInternal(
               haversineAlgorithm,
@@ -171,7 +176,7 @@ class PetMatchDataSource @Inject constructor(
       return haversineAlgorithm.calculateDistance(unstable.distinct(), myPetId)
     }
 
-    private suspend fun currentLocation(): Flow<Location> {
+    private suspend fun currentLocation(): Flow<Location?> {
       return context.getMyCurrentLocation()
     }
 

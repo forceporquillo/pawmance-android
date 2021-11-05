@@ -26,7 +26,7 @@ fun Context.getLocationSharedPrefs(): SharedPreferences {
 }
 
 @SuppressLint("MissingPermission")
-suspend fun Context.getMyCurrentLocation(): Flow<Location> {
+suspend fun Context.getMyCurrentLocation(): Flow<Location?> {
   return flow {
     val lastLocation =
       LocationServices
