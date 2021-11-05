@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewmodel"
-            type="dev.forcecodes.pawmance.ui.photos.PetPhotosViewModel" />
+            type="dev.apes.pawmance.ui.photos.PetPhotosViewModel" />
     </data>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="dev.forcecodes.pawmance.ui.birth.PetBirthdayViewModel" />
+            type="dev.apes.pawmance.ui.birth.PetBirthdayViewModel" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

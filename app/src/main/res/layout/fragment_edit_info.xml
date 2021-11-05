@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    >
+
+  <com.google.android.material.appbar.MaterialToolbar
+      android:id="@+id/toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="?attr/actionBarSize"
+      android:theme="@style/Widget.MaterialComponents.Toolbar.Surface"
+      app:contentInsetStartWithNavigation="0dp"
+      app:navigationIcon="@drawable/ic_arrow_back"
+      app:navigationIconTint="@color/black">
+
+    <TextView
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/product_sans_bold"
+        android:gravity="center_vertical"
+        android:text="Edit Info" />
+
+  </com.google.android.material.appbar.MaterialToolbar>
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_marginTop="24dp"
+      android:layout_marginEnd="16dp"
+      android:layout_marginStart="16dp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_center"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        app:layout_constraintGuide_percent="0.5"
+        android:layout_height="0dp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/pet_name_text_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:errorEnabled="true"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:hint="@string/first_name"
+        android:layout_height="wrap_content">
+
+      <com.google.android.material.textfield.TextInputEditText
+          android:id="@+id/pet_name_edit_text"
+          android:text="@{viewModel.petNameFlow}"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/breed_text_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pet_name_text_layout"
+        android:layout_marginTop="12dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        app:layout_constraintEnd_toEndOf="@id/guideline_center"
+        android:hint="@string/breed"
+        app:errorEnabled="true"
+        android:layout_height="wrap_content">
+
+      <com.google.android.material.textfield.MaterialAutoCompleteTextView
+          android:inputType="textAutoComplete"
+          android:id="@+id/breed_edit_text"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/pet_location_text_layout"
+        app:layout_constraintTop_toBottomOf="@id/breed_text_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:hint="@string/enter_location"
+        app:errorEnabled="true"
+        android:layout_height="wrap_content">
+
+      <com.google.android.material.textfield.MaterialAutoCompleteTextView
+          android:id="@+id/enter_location_edit_text"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        app:layout_constraintTop_toBottomOf="@id/pet_location_text_layout"
+        android:textAppearance="@style/TextButtonStyle"
+        android:id="@+id/continue_button"
+        android:layout_width="match_parent"
+        android:layout_marginTop="32dp"
+        android:layout_height="wrap_content"
+        android:insetBottom="0dp"
+        android:insetTop="0dp"
+        android:text="@string/continue_text_button"/>
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

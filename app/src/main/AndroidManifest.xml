@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:name="dev.forcecodes.pawmance.PawManceApplication"
+        android:name="dev.apes.pawmance.PawManceApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -22,10 +22,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PawMance">
         <activity
-            android:name="dev.forcecodes.pawmance.ui.registration.PhoneRegistrationActivity"
+            android:name="dev.apes.pawmance.ui.registration.PhoneRegistrationActivity"
             android:exported="true" />
         <activity
-            android:name="dev.forcecodes.pawmance.ui.LauncherActivity"
+            android:name="dev.apes.pawmance.ui.LauncherActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,13 +34,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="dev.forcecodes.pawmance.ui.MainActivity"
+            android:name="dev.apes.pawmance.ui.MainActivity"
             android:exported="true" />
         <activity
-            android:name="dev.forcecodes.pawmance.ui.registration.CompleteRegistrationActivity"
+            android:name="dev.apes.pawmance.ui.registration.CompleteRegistrationActivity"
             android:exported="true" />
 
-        <service android:name="dev.forcecodes.pawmance.data.fcm.FirebaseMessageService"
+        <service android:name="dev.apes.pawmance.data.fcm.FirebaseMessageService"
             android:permission="com.google.android.c2dm.permission.SEND"
             android:exported="true">
             <intent-filter>

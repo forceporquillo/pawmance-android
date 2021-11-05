@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:orientation="vertical"
-    tools:context="dev.forcecodes.pawmance.ui.registration.PhoneRegistrationActivity">
+    tools:context="dev.apes.pawmance.ui.registration.PhoneRegistrationActivity">
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/linear_progress"

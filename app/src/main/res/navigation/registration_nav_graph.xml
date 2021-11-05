@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/phoneRegistrationFragment"
-        android:name="dev.forcecodes.pawmance.ui.registration.PhoneRegistrationFragment"
+        android:name="dev.apes.pawmance.ui.registration.PhoneRegistrationFragment"
         tools:layout="@layout/fragment_registration">
 
         <action
@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/verifyPhoneNumberFragment"
-        android:name="dev.forcecodes.pawmance.ui.registration.VerifyPhoneNumberFragment"
+        android:name="dev.apes.pawmance.ui.registration.VerifyPhoneNumberFragment"
         tools:layout="@layout/fragment_verify_phone_number">
 
         <action

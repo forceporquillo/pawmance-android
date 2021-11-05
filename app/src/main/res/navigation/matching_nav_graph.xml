@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="dev.forcecodes.pawmance.ui.profile.ProfileFragment"
+        android:name="dev.apes.pawmance.ui.profile.ProfileFragment"
         tools:layout="@layout/fragment_profile">
 
         <action
@@ -34,11 +34,18 @@
         <action
             android:id="@+id/action_profileFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_editPetInfoFragment"
+            app:destination="@id/editPetInfoFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
     <fragment
         android:id="@+id/matchPetFragment"
-        android:name="dev.forcecodes.pawmance.ui.match.MatchPetFragment"
+        android:name="dev.apes.pawmance.ui.match.MatchPetFragment"
         tools:layout="@layout/fragment_match_pet">
 
         <action
@@ -59,7 +66,7 @@
 
     <fragment
         android:id="@+id/petProgressFragment"
-        android:name="dev.forcecodes.pawmance.ui.progress.PetProgressFragment"
+        android:name="dev.apes.pawmance.ui.progress.PetProgressFragment"
         tools:layout="@layout/fragment_pet_progress">
 
         <action
@@ -73,7 +80,7 @@
 
     <fragment
         android:id="@+id/itsMatchFragment"
-        android:name="dev.forcecodes.pawmance.ui.match.ItsMatchFragment"
+        android:name="dev.apes.pawmance.ui.match.ItsMatchFragment"
         android:label="ItsMatchFragment"
         tools:layout="@layout/fragment_its_match">
         <action
@@ -89,13 +96,13 @@
 
     <fragment
         android:id="@+id/progressUpdateFragment"
-        android:name="dev.forcecodes.pawmance.ui.progress.ProgressUpdateFragment"
+        android:name="dev.apes.pawmance.ui.progress.ProgressUpdateFragment"
         android:label="ProgressUpdateFragment"
         tools:layout="@layout/fragment_progress_update" />
 
     <fragment
         android:id="@+id/chatFragment"
-        android:name="dev.forcecodes.pawmance.ui.chat.ChatFragment"
+        android:name="dev.apes.pawmance.ui.chat.ChatFragment"
         android:label="ChatFragment"
         tools:layout="@layout/fragment_chat" >
         <action
@@ -105,7 +112,7 @@
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="dev.forcecodes.pawmance.ui.profile.SettingsFragment"
+        android:name="dev.apes.pawmance.ui.profile.SettingsFragment"
         android:label="SettingsFragment"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim"
@@ -115,8 +122,13 @@
 
     <fragment
         android:id="@+id/conversationFragment"
-        android:name="dev.forcecodes.pawmance.ui.chat.ConversationFragment"
+        android:name="dev.apes.pawmance.ui.chat.ConversationFragment"
         android:label="ConversationFragment"
         tools:layout="@layout/fragment_conversation" />
+    <fragment
+        android:id="@+id/editPetInfoFragment"
+        android:name="dev.apes.pawmance.ui.profile.EditPetInfoFragment"
+        android:label="EditPetInfoFragment"
+        tools:layout="@layout/fragment_edit_info"/>
 
 </navigation>

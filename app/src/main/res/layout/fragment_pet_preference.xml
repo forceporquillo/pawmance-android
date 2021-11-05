@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="dev.forcecodes.pawmance.ui.preference.PetPreferenceViewModel" />
+            type="dev.apes.pawmance.ui.preference.PetPreferenceViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
