@@ -192,6 +192,8 @@ class PetMatchDataSource @Inject constructor(
        * Mean radius as defined by IUGG.
        */
       private const val EARTH_RADIUS = 6371009.0
+
+      private const val KM_PER_METERS = 1000
     }
 
     @Synchronized
@@ -200,14 +202,15 @@ class PetMatchDataSource @Inject constructor(
       unsortedComparator: MutableList<DistanceComparator>,
       theirMetadata: Pair<String, PetCollection>
     ): List<DistanceComparator> {
-      val withInKmBounds = context.getMaxPreferredDistance()
       val calculatedDistance = formatDistance(distanceInMeters / 1000)
-      if (calculatedDistance < withInKmBounds) {
+
+      if (isWithInKmBounds(calculatedDistance)) {
         val theirId = theirMetadata.first
         val collection = theirMetadata.second
         val metadata = PetMetadata(theirId, collection)
         unsortedComparator.add(DistanceComparator(calculatedDistance, metadata))
       }
+      
       return unsortedComparator
     }
 
@@ -221,7 +224,6 @@ class PetMatchDataSource @Inject constructor(
 
       for (matchCoordinate in matchCoordinates) {
         val petCollection = matchCoordinate.second
-
         val coordinates = petCoordinates(petCollection)
         val distanceInMeters = computeDistanceBetween(coordinates)
 
@@ -236,11 +238,9 @@ class PetMatchDataSource @Inject constructor(
         unsortedComparator
           .sortedBy { it.distance }
           .map {
-
             val metadata = it.metadata
             val collection = metadata.collection
             val distance = it.distance
-
             Pet(
               id = metadata.petId,
               name = collection.name,
@@ -254,6 +254,11 @@ class PetMatchDataSource @Inject constructor(
       )
 
       return sortedMatches
+    }
+
+    private fun isWithInKmBounds(calculatedDistance: Float): Boolean {
+      val maxDistanceSearch = context.getMaxPreferredDistance()
+      return calculatedDistance < maxDistanceSearch
     }
 
     private fun petCoordinates(collection: PetCollection): LatLng {
