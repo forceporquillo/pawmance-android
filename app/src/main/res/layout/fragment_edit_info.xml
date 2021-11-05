@@ -101,13 +101,13 @@
     <com.google.android.material.button.MaterialButton
         app:layout_constraintTop_toBottomOf="@id/pet_location_text_layout"
         android:textAppearance="@style/TextButtonStyle"
-        android:id="@+id/continue_button"
+        android:id="@+id/update_profile_button"
         android:layout_width="match_parent"
         android:layout_marginTop="32dp"
         android:layout_height="wrap_content"
         android:insetBottom="0dp"
         android:insetTop="0dp"
-        android:text="@string/continue_text_button"/>
+        android:text="@string/update_profile"/>
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 

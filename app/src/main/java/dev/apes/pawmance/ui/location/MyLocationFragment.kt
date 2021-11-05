@@ -62,6 +62,6 @@ class MyLocationFragment : Fragment(R.layout.fragment_my_location) {
       navigate(R.id.action_myLocationFragment_to_petPhotosFragment)
     }
   }
-
-  private fun setQueryAdapter(items: List<String>) = createAdapter(items.toTypedArray())
 }
+
+fun Fragment.setQueryAdapter(items: List<String>) = createAdapter(items.toTypedArray())
