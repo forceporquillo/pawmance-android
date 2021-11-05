@@ -98,7 +98,10 @@ class PetMatchDataSource @Inject constructor(
     @ApplicationScope private val externalScope: CoroutineScope
   ) : GaleShapelyAlgorithm {
 
-    private fun hasNoPartnerWithOthers(pet: PetCollection, myId: String): Boolean {
+    private fun hasNoPartnerWithOthers(
+      pet: PetCollection,
+      myId: String
+    ): Boolean {
       return pet.partnerId == null || pet.partnerId == myId
     }
 
@@ -152,9 +155,7 @@ class PetMatchDataSource @Inject constructor(
 
         // since we don't have preferences to depend on,
         // we use their pet preferences instead.
-        val theirPreferences = theirCollection.preferences
-
-        theirPreferences?.let { preferences ->
+        theirCollection.preferences?.let { preferences ->
           // if at least contains one
           for (prefs in preferences) {
             if (myPreferences(myPetCollection)?.contains(prefs) == true) {
@@ -182,9 +183,15 @@ class PetMatchDataSource @Inject constructor(
     ) = myPetCollection?.breed == theirCollection.breed
   }
 
-  data class DistanceComparator(val distance: Float, val metadata: PetMetadata)
+  data class DistanceComparator(
+    val distance: Float,
+    val metadata: PetMetadata
+  )
 
-  class HaversineAlgorithm(private val context: Context, private val from: LatLng) {
+  class HaversineAlgorithm(
+    private val context: Context,
+    private val from: LatLng
+  ) {
 
     companion object {
       /**
@@ -210,7 +217,7 @@ class PetMatchDataSource @Inject constructor(
         val metadata = PetMetadata(theirId, collection)
         unsortedComparator.add(DistanceComparator(calculatedDistance, metadata))
       }
-      
+
       return unsortedComparator
     }
 
@@ -278,7 +285,10 @@ class PetMatchDataSource @Inject constructor(
     }
 
     // Returns sin(arcHav(x) + arcHav(y)).
-    fun sinSumFromHav(x: Double, y: Double): Double {
+    fun sinSumFromHav(
+      x: Double,
+      y: Double
+    ): Double {
       val a = sqrt(x * (1 - x))
       val b = sqrt(y * (1 - y))
       return 2 * (a + b - 2 * (a * y + b * x))
@@ -287,7 +297,11 @@ class PetMatchDataSource @Inject constructor(
     /**
      * Returns hav() of distance from (lat1, lng1) to (lat2, lng2) on the unit sphere.
      */
-    private fun havDistance(lat1: Double, lat2: Double, dLng: Double): Double {
+    private fun havDistance(
+      lat1: Double,
+      lat2: Double,
+      dLng: Double
+    ): Double {
       return hav(lat1 - lat2) + hav(dLng) * cos(lat1) * cos(lat2)
     }
 
@@ -295,7 +309,10 @@ class PetMatchDataSource @Inject constructor(
      * Returns the angle between two LatLngs, in radians. This is the same as the distance
      * on the unit sphere.
      */
-    private fun computeAngleBetween(from: LatLng, to: LatLng): Double {
+    private fun computeAngleBetween(
+      from: LatLng,
+      to: LatLng
+    ): Double {
       return distanceRadians(
         Math.toRadians(from.latitude), Math.toRadians(from.longitude),
         Math.toRadians(to.latitude), Math.toRadians(to.longitude)
@@ -318,7 +335,11 @@ class PetMatchDataSource @Inject constructor(
       return arcHav(havDistance(lat1, lat2, lng1 - lng2))
     }
 
-    fun clamp(x: Double, low: Double, high: Double): Double {
+    fun clamp(
+      x: Double,
+      low: Double,
+      high: Double
+    ): Double {
       return if (x < low) low else if (x > high) high else x
     }
 
@@ -329,7 +350,11 @@ class PetMatchDataSource @Inject constructor(
      * @param min The minimum.
      * @param max The maximum.
      */
-    fun wrap(n: Double, min: Double, max: Double): Double {
+    fun wrap(
+      n: Double,
+      min: Double,
+      max: Double
+    ): Double {
       return if (n >= min && n < max) n else mod(n - min, max - min) + min
     }
 
@@ -339,7 +364,10 @@ class PetMatchDataSource @Inject constructor(
      * @param x The operand.
      * @param m The modulus.
      */
-    fun mod(x: Double, m: Double): Double {
+    fun mod(
+      x: Double,
+      m: Double
+    ): Double {
       return (x % m + m) % m
     }
 
