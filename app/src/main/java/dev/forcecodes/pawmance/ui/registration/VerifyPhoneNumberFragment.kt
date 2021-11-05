@@ -9,12 +9,15 @@ import com.devforcecodes.pawmance.R
 import com.devforcecodes.pawmance.databinding.FragmentVerifyPhoneNumberBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dev.forcecodes.pawmance.binding.viewBinding
+import dev.forcecodes.pawmance.ui.MainActivity
 import dev.forcecodes.pawmance.ui.registration.PhoneRegistrationViewModel.PhoneVerificationUiState
 import dev.forcecodes.pawmance.utils.createIntent
 import dev.forcecodes.pawmance.utils.fromHtmlWithParams
 import dev.forcecodes.pawmance.utils.repeatOnLifecycle
 import dev.forcecodes.pawmance.utils.showToast
 import kotlinx.coroutines.flow.collect
+import timber.log.Timber
+import timber.log.Timber.Forest
 
 @AndroidEntryPoint
 class VerifyPhoneNumberFragment : Fragment(R.layout.fragment_verify_phone_number) {
@@ -22,7 +25,10 @@ class VerifyPhoneNumberFragment : Fragment(R.layout.fragment_verify_phone_number
   private val viewModel by activityViewModels<PhoneRegistrationViewModel>()
   private val binding by viewBinding(FragmentVerifyPhoneNumberBinding::bind)
 
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+  override fun onViewCreated(
+    view: View,
+    savedInstanceState: Bundle?
+  ) {
     super.onViewCreated(view, savedInstanceState)
 
     repeatOnLifecycle {
@@ -41,9 +47,20 @@ class VerifyPhoneNumberFragment : Fragment(R.layout.fragment_verify_phone_number
     progressBar.isVisible = uiState.isLoading
     otpErrorMessage.text = uiState.exception?.message
 
-    if (uiState.isSuccess) {
-      createIntent(CompleteRegistrationActivity::class)
+    Timber.e(uiState.toString())
+    if (!uiState.isSuccess) {
+      return@with
     }
+
+    uiState.completeProfile?.let { shouldComplete ->
+      if (shouldComplete) {
+        createIntent(CompleteRegistrationActivity::class)
+      } else {
+        createIntent(MainActivity::class)
+        requireActivity().finish()
+      }
+    }
+
   }
 
   private fun resendVerificationCode(phoneNumber: String) {

@@ -6,13 +6,20 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.forcecodes.pawmance.data.auth.AuthStateDataSource
+import dev.forcecodes.pawmance.data.auth.LoginAuthResult
+import dev.forcecodes.pawmance.data.auth.PetInfoStateDataSource
 import dev.forcecodes.pawmance.ui.BaseViewModel
 import dev.forcecodes.pawmance.utils.Result
+import dev.forcecodes.pawmance.utils.Result.Error
+import dev.forcecodes.pawmance.utils.Result.Loading
+import dev.forcecodes.pawmance.utils.Result.Success
 import dev.forcecodes.pawmance.utils.isValidPhoneNumber
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -20,7 +27,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PhoneRegistrationViewModel @Inject constructor(
-  private val authStateDataSource: AuthStateDataSource
+  private val authStateDataSource: AuthStateDataSource,
+  private val petInfoStateDataSource: PetInfoStateDataSource
 ) : BaseViewModel<PinVerificationAction>() {
 
   val verifyPinUiActionEvent = mUiEvents.receiveAsFlow()
@@ -60,18 +68,35 @@ class PhoneRegistrationViewModel @Inject constructor(
 
   private fun authenticate(credential: PhoneAuthCredential) {
     viewModelScope.launch {
-      authStateDataSource.loginWithPhone(credential).collect { result ->
-        _phoneVerificationUiState.value = when (result) {
-          is Result.Loading -> {
-            PhoneVerificationUiState(true)
-          }
-          is Result.Success -> {
-            PhoneVerificationUiState(isLoading = false, true)
-          }
-          is Result.Error -> {
-            PhoneVerificationUiState(isLoading = false, exception = result.exception)
-          }
+      authStateDataSource.loginWithPhone(credential).map { result ->
+        isUserExist(result)
+      }.collect {
+        _phoneVerificationUiState.value = it
+      }
+    }
+  }
+
+  private suspend fun isUserExist(loginResult: Result<LoginAuthResult>): PhoneVerificationUiState {
+    Timber.e(loginResult.toString())
+    return when (loginResult) {
+      is Loading -> {
+        PhoneVerificationUiState(true)
+      }
+      is Success -> {
+        val useId = loginResult.data.currentUser?.uid
+        Timber.e(useId)
+        if (useId == null) {
+          PhoneVerificationUiState(isLoading = false, loginResult.data.success, true)
+        } else {
+          petInfoStateDataSource.getCollectionInfo(useId).map { result ->
+            val shouldComplete = result is Error
+            Timber.e("shouldComplete $shouldComplete")
+            PhoneVerificationUiState(isLoading = false, loginResult.data.success, shouldComplete)
+          }.first()
         }
+      }
+      is Error -> {
+        PhoneVerificationUiState(isLoading = false, exception = loginResult.exception)
       }
     }
   }
@@ -90,6 +115,7 @@ class PhoneRegistrationViewModel @Inject constructor(
   data class PhoneVerificationUiState(
     val isLoading: Boolean = false,
     val isSuccess: Boolean = false,
+    val completeProfile: Boolean? = null,
     val exception: Exception? = null
   )
 }

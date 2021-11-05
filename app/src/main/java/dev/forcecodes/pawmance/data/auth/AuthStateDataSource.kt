@@ -29,7 +29,7 @@ import javax.inject.Singleton
 import kotlin.coroutines.resumeWithException
 
 interface AuthStateDataSource {
-  suspend fun loginWithPhone(credential: PhoneAuthCredential): Flow<Result<Boolean>>
+  suspend fun loginWithPhone(credential: PhoneAuthCredential): Flow<Result<LoginAuthResult>>
   fun getAuthenticatedBasicInfo(): Flow<Result<AuthenticatedUserInfoBasic>>
 }
 
@@ -69,20 +69,20 @@ class FirebaseAuthStateDataSource @Inject constructor(
     return Result.Success(FirebaseUserInfo(auth.currentUser))
   }
 
-  override suspend fun loginWithPhone(credential: PhoneAuthCredential): Flow<Result<Boolean>> {
+  override suspend fun loginWithPhone(credential: PhoneAuthCredential): Flow<Result<LoginAuthResult>> {
     return flow {
-      emit(Result.Loading)
+      var isSuccess: Result<LoginAuthResult> = Result.Loading
+      emit(isSuccess)
       try {
-        var isSuccess: Result<Boolean>? = null
         firebaseAuth.signInWithCredential(credential)
-          .addOnCompleteListener {
-            isSuccess = if (it.isSuccessful) {
-              Result.Success(true)
+          .addOnCompleteListener { task ->
+            isSuccess = if (task.isSuccessful) {
+              Result.Success(LoginAuthResult(true, task.result.user))
             } else {
-              Result.Error(Exception(it.exception))
+              Result.Error(Exception(task.exception))
             }
           }.await()
-        emit(isSuccess!!)
+        emit(isSuccess)
       } catch (e: FirebaseAuthException) {
         emit(Result.Error(e))
       }
@@ -91,6 +91,11 @@ class FirebaseAuthStateDataSource @Inject constructor(
 
   override fun getAuthenticatedBasicInfo() = basicAuthInfo
 }
+
+data class LoginAuthResult(
+  val success: Boolean = false,
+  val currentUser: FirebaseUser? = null
+)
 
 // region Firebase
 suspend fun <T> Task<T>.suspendAndWait(): T =
