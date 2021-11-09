@@ -27,7 +27,7 @@ class PetPreferenceFragment : Fragment(R.layout.fragment_pet_preference) {
     binding.lifecycleOwner = viewLifecycleOwner
     binding.viewModel = viewModel
 
-    val chipViews = binding.run { arrayOf(pureBreedChip, rescue, mix, serviceDog, withPapers) }
+    val chipViews = binding.run { arrayOf(withPapers, withoutPapers) }
 
     chipViews.forEach { chip ->
       chip.setOnCheckedChangeListener { compoundButton, isChecked ->

@@ -37,12 +37,12 @@
     <string name="allow_permission">Allow</string>
 
     <string name="error_gif">x or y bound size should be at least %1$dpx and file size should be no more than %2$sM</string>
-    <string name="pet_preference_s">Pet Preference\'s</string>
+    <string name="pet_preference_s">Pet Preference</string>
     <string name="dog_breed">Dog Breed</string>
     <string name="pure_breed">Pure Breed</string>
     <string name="rescue">Rescue</string>
     <string name="mix">Mix</string>
-    <string name="service_dog">Service Dog</string>
+    <string name="without_papers">Without Papers</string>
     <string name="with_papers">With Papers</string>
     <string name="it_s_a_match">It\'s a MATCH!</string>
     <string name="send_a_message">Send a message</string>

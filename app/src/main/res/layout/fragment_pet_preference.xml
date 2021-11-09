@@ -50,46 +50,19 @@
             app:layout_constraintEnd_toEndOf="@id/guideline_7"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/pet_prefs"
-            app:singleSelection="false">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/pure_breed_chip"
-                style="@style/My_Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="120dp"
-                android:layout_height="65dp"
-                android:text="@string/pure_breed"
-                android:textAlignment="center"
-                app:chipCornerRadius="4dp" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/rescue"
-                style="@style/My_Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="120dp"
-                android:layout_height="65dp"
-                android:text="@string/rescue"
-                android:textAlignment="center"
-                app:chipCornerRadius="4dp" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/mix"
-                style="@style/My_Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="120dp"
-                android:layout_height="65dp"
-                android:text="@string/mix"
-                android:textAlignment="center"
-                app:chipCornerRadius="4dp" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/service_dog"
-                style="@style/My_Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="120dp"
-                android:layout_height="65dp"
-                android:text="@string/service_dog"
-                android:textAlignment="center"
-                app:chipCornerRadius="4dp" />
+            app:singleSelection="true">
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/with_papers"
+                style="@style/My_Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="120dp"
+                android:layout_height="65dp"
+                android:text="@string/with_papers"
+                android:textAlignment="center"
+                app:chipCornerRadius="4dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/without_papers"
                 style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="120dp"
                 android:layout_height="65dp"
