@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -50,18 +51,22 @@ class PetMatchDataSource @Inject constructor(
 ) : GaleShapelyMatchDataSource {
 
   override fun getMyPossibleMatches(id: String): Flow<List<Pet>> {
-    return callbackFlow {
+    Timber.i("Getting possible matches...")
+    return callbackFlow<List<Pet>> {
       val listenerRegistration = firestore.petCollection()
         .addSnapshotListener { value, error ->
           if (value?.isEmpty == false) {
             val list = mutableListOf<Pair<String, PetCollection>>()
             var myCollection: PetCollection? = null
+            Timber.i("Traversing pet collection metadata.")
             for (snapshot in value) {
               val collection = snapshot.toObject<PetCollection>()
               if (id == snapshot.id) {
                 myCollection = collection
+                Timber.i("Your metadata collection is found. Continue traversing...")
                 continue
               } else {
+                Timber.i("${collection.name} is added to queued matching list.")
                 list.add(Pair(snapshot.id, collection))
               }
             }
@@ -73,6 +78,7 @@ class PetMatchDataSource @Inject constructor(
         }
       awaitClose { listenerRegistration.remove() }
     }
+      .distinctUntilChanged()
   }
 
   private fun ProducerScope<List<Pet>>.possibleMatchResults(
@@ -82,6 +88,7 @@ class PetMatchDataSource @Inject constructor(
     launch {
       galeShapelyAlgorithm
         .filterPossibleMatches(pair, list)
+        .distinctUntilChanged()
         .collect(::tryOffer)
     }
   }
@@ -97,6 +104,10 @@ class PetMatchDataSource @Inject constructor(
     @ApplicationContext private val context: Context,
     @ApplicationScope private val externalScope: CoroutineScope
   ) : GaleShapelyAlgorithm {
+
+    init {
+      Timber.i("Initializing GaleShapelyAlgorithm...")
+    }
 
     private fun hasNoPartnerWithOthers(
       pet: PetCollection,
@@ -114,13 +125,17 @@ class PetMatchDataSource @Inject constructor(
       myPetMetadata: Pair<String, PetCollection?>,
       theirPetaMetadata: List<Pair<String, PetCollection>>
     ): Flow<List<Pet>> {
+      Timber.i("Filtering possible matches.")
       return flow {
         val possibleMatches = currentLocation()
           .map { location ->
+            Timber.i("Requesting current location.")
             val from =   if (location == null) {
               val myLocation = myPetMetadata.second?.location?.coordinates
+              Timber.i("Retrieving server cache location Latitude: ${myLocation?.lat} Longitude: ${myLocation?.lng}")
               LatLng(myLocation?.lat ?: 0.0, myLocation?.lng ?: 0.0)
             } else {
+              Timber.i("Retrieving local cache location Latitude: ${location.longitude} Longitude: ${location.longitude}")
               LatLng(location.latitude, location.longitude)
             }
             val haversineAlgorithm = HaversineAlgorithm(context, from = from)
@@ -148,14 +163,22 @@ class PetMatchDataSource @Inject constructor(
       for (metadata in theirPetaMetadata) {
         val theirCollection = metadata.second
 
-        if (!isBreedTheSame(myPetCollection, theirCollection)) {
+        val isSame = !isBreedTheSame(myPetCollection, theirCollection)
+
+        Timber.i("${theirCollection.name ?: "Undefined"} breed is ${theirCollection.breed}.")
+
+        if (isSame) {
+          Timber.i("[Genetic Issue] Skipping ${theirCollection.name ?: "Undefined"} because of mismatch in breed.")
           continue
         }
 
         if (hasNoPartnerWithOthers(theirCollection, myPetId)
           && isOppositeGender(theirCollection, myPetCollection)
         ) {
+          Timber.i("${metadata.second.name} is unstable. Adding to unstable list.")
           unstable.add(metadata)
+        } else {
+          Timber.i("${theirCollection.name} is discarded in fix matching, due to either same gender or has a partner already.")
         }
 
         // since we don't have preferences to depend on,
@@ -172,6 +195,12 @@ class PetMatchDataSource @Inject constructor(
           }
         }
       }
+      Timber.i("---------------------------------------------")
+      Timber.i("Stable Marriage preferred matches:")
+      unstable.forEach {
+        Timber.i("PetName: ${it.second.name}")
+      }
+      Timber.i("---------------------------------------------")
       // lastly, we calculate their distance and sort it by KMS ascending.
       return haversineAlgorithm.calculateDistance(unstable.distinct(), myPetId)
     }
@@ -208,21 +237,33 @@ class PetMatchDataSource @Inject constructor(
       private const val KM_PER_METERS = 1000
     }
 
+    init {
+      Timber.i("Initializing Haversine Algorithm...")
+    }
+
     @Synchronized
     fun computeDifference(
       distanceInMeters: Double,
       unsortedComparator: MutableList<DistanceComparator>,
       theirMetadata: Pair<String, PetCollection>
     ): List<DistanceComparator> {
-      val calculatedDistance = formatDistance(distanceInMeters / 1000)
+      Timber.i("Calculating difference:")
 
-      if (isWithInKmBounds(calculatedDistance)) {
+      val calculatedDistance = formatDistance(distanceInMeters / 1000)
+      Timber.i("Formatting distance to KM: $calculatedDistance, M: $distanceInMeters")
+
+      val (withinKmBounds, maxDistance) = isWithInKmBounds(calculatedDistance)
+      if (withinKmBounds) {
         val theirId = theirMetadata.first
         val collection = theirMetadata.second
         val metadata = PetMetadata(theirId, collection)
+
+        Timber.i("${collection.name} is within the bounds of MAX search range: $maxDistance")
+        Timber.i("Adding to unsorted distance comparator.")
         unsortedComparator.add(DistanceComparator(calculatedDistance, metadata))
       }
 
+      Timber.i("List of unsorted collection within the bounds $unsortedComparator.")
       return unsortedComparator
     }
 
@@ -234,11 +275,13 @@ class PetMatchDataSource @Inject constructor(
 
       val unsortedComparator = mutableListOf<DistanceComparator>()
 
+      Timber.i("Calculating distance:")
       for (matchCoordinate in matchCoordinates) {
         val petCollection = matchCoordinate.second
         val coordinates = petCoordinates(petCollection)
         val distanceInMeters = computeDistanceBetween(coordinates)
 
+        Timber.i("${petCollection.name} distance is $distanceInMeters meters.")
         computeDifference(
           distanceInMeters,
           unsortedComparator,
@@ -246,9 +289,13 @@ class PetMatchDataSource @Inject constructor(
         )
       }
 
+      Timber.i("Sorting distance:")
       sortedMatches.addAll(
         unsortedComparator
-          .sortedBy { it.distance }
+          .sortedBy {
+            Timber.i("PetName: ${it.metadata.collection.name} Distance: ${it.distance} KM/s.")
+            it.distance
+          }
           .map {
             val metadata = it.metadata
             val collection = metadata.collection
@@ -264,13 +311,18 @@ class PetMatchDataSource @Inject constructor(
             )
           }
       )
-
+      Timber.i("---------------------------------------------")
+      Timber.i("Sorted Matches by distance ascending")
+      sortedMatches.forEach {
+        Timber.i("PetName: ${it.name} Distance: ${it.distance} KM/s.")
+      }
+      Timber.i("---------------------------------------------")
       return sortedMatches
     }
 
-    private fun isWithInKmBounds(calculatedDistance: Float): Boolean {
+    private fun isWithInKmBounds(calculatedDistance: Float): Pair<Boolean, Int> {
       val maxDistanceSearch = context.getMaxPreferredDistance()
-      return calculatedDistance < maxDistanceSearch
+      return Pair(calculatedDistance < maxDistanceSearch, maxDistanceSearch)
     }
 
     private fun petCoordinates(collection: PetCollection): LatLng {
