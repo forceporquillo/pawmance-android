@@ -186,6 +186,40 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:fontFamily="@font/product_sans_regular"
+                android:text="@string/logging_simulation"
+                android:textColor="@color/black" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/simulation_logs_txt"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:clickable="true"
+                android:drawableEnd="@drawable/ic_baseline_chevron_right_24"
+                android:focusable="true"
+                android:fontFamily="@font/product_sans_regular"
+                android:foreground="?selectableItemBackground"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="@string/show_simulation_logs"
+                android:textColor="@color/black"
+                app:drawableTint="@color/black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:alpha="0.3"
+                android:background="@color/cardview_dark_background" />
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/product_sans_regular"
                 android:text="@string/legal"
                 android:textColor="@color/black" />
 

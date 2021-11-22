@@ -14,6 +14,7 @@ import dev.apes.pawmance.binding.viewBinding
 import dev.apes.pawmance.ui.LauncherActivity
 import dev.apes.pawmance.ui.signin.SignInViewModelDelegateImpl
 import dev.apes.pawmance.utils.getMaxPreferredDistance
+import dev.apes.pawmance.utils.navigate
 import dev.apes.pawmance.utils.repeatOnLifecycle
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
@@ -77,6 +78,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             requestReAuthentication()
           }
         }
+    }
+
+    binding.simulationLogsTxt.setOnClickListener {
+      navigate(R.id.action_settingsFragment_to_logsFragment)
     }
 
     repeatOnLifecycle {

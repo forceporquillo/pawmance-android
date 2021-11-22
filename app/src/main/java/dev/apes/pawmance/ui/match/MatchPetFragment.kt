@@ -93,10 +93,11 @@ class MatchPetFragment : Fragment(R.layout.fragment_match_pet), CardStackListene
     if (direction == Direction.Right) {
       val currentPetSwiped = matchingSwipeAdapter.getItemPos(manager.topPosition - 1)
       currentPetSwiped?.let {
+        Timber.i("You like ${it.name}")
+
         matchPetViewModel.setLikedPet(it.id)
 
         if (it.isMatch) {
-
           val bundle = Bundle().apply {
             putString("tokenId", it.tokenId)
             putString("petId", it.id)
@@ -120,6 +121,11 @@ class MatchPetFragment : Fragment(R.layout.fragment_match_pet), CardStackListene
 
   override fun onCardAppeared(view: View, position: Int) {
     Timber.d("onCardAppeared: ($position)")
+    val pet = matchingSwipeAdapter.getItemPos(position)
+
+    if (pet?.isMatch == true) {
+      Timber.i("${pet.name} liked you.")
+    }
   }
 
   override fun onCardDisappeared(view: View, position: Int) {
