@@ -70,4 +70,6 @@
     <string name="delete_my_account">Delete my account</string>
     <string name="log_out">Log out</string>
   <string name="update_profile">Update Profile</string>
+  <string name="logging_simulation">Logging Simulation</string>
+    <string name="show_simulation_logs">Show simulation logs</string>
 </resources>

@@ -118,7 +118,11 @@
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_logsFragment"
+            app:destination="@id/logsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/conversationFragment"
@@ -130,5 +134,11 @@
         android:name="dev.apes.pawmance.ui.profile.EditPetInfoFragment"
         android:label="EditPetInfoFragment"
         tools:layout="@layout/fragment_edit_info"/>
+
+    <fragment
+        android:id="@+id/logsFragment"
+        android:name="dev.apes.pawmance.ui.logs.LogsFragment"
+        android:label="LogsFragment"
+        tools:layout="@layout/fragment_logs"/>
 
 </navigation>
