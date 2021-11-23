@@ -164,11 +164,9 @@ class PetMatchDataSource @Inject constructor(
       for (metadata in theirPetaMetadata) {
         val theirCollection = metadata.second
 
-        val isSame = !isBreedTheSame(myPetCollection, theirCollection)
-
         Timber.i("${theirCollection.name ?: "Undefined"} breed is ${theirCollection.breed}.")
 
-        if (isSame) {
+        if (!isBreedTheSame(myPetCollection, theirCollection)) {
           Timber.i("[Genetic Issue] Skipping ${theirCollection.name ?: "Undefined"} because of mismatch in breed.")
           continue
         }
