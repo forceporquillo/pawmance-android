@@ -10,6 +10,7 @@ import com.google.firebase.firestore.ktx.toObject
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.apes.pawmance.data.auth.PetCollection
 import dev.apes.pawmance.data.auth.PetMetadata
+import dev.apes.pawmance.data.logs.LogsDao
 import dev.apes.pawmance.di.ApplicationScope
 import dev.apes.pawmance.ui.match.Pet
 import dev.apes.pawmance.utils.getMaxPreferredDistance
@@ -30,7 +31,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.lang.IllegalStateException
 import java.util.Locale
+import java.util.concurrent.Executors
 import javax.inject.Inject
 import kotlin.math.asin
 import kotlin.math.atan
@@ -47,10 +50,15 @@ interface GaleShapelyMatchDataSource {
 
 class PetMatchDataSource @Inject constructor(
   private val galeShapelyAlgorithm: GaleShapelyAlgorithm,
-  private val firestore: FirebaseFirestore
+  private val firestore: FirebaseFirestore,
+  private val logsDao: LogsDao
 ) : GaleShapelyMatchDataSource {
 
+  private val executor = Executors.newSingleThreadExecutor()
+
   override fun getMyPossibleMatches(id: String): Flow<List<Pet>> {
+    executor.execute(logsDao::clearLogs)
+
     Timber.i("Getting possible matches...")
     return callbackFlow<List<Pet>> {
       val listenerRegistration = firestore.petCollection()
@@ -119,7 +127,12 @@ class PetMatchDataSource @Inject constructor(
     private fun isOppositeGender(
       theirPetCollection: PetCollection,
       ourPetCollection: PetCollection?
-    ): Boolean = theirPetCollection.gender != ourPetCollection?.gender
+    ): Boolean {
+      if (ourPetCollection?.gender.isNullOrEmpty() || theirPetCollection.gender.isNullOrEmpty()) {
+        throw IllegalStateException("Gender must not be null. But was your Gender: ${ourPetCollection?.gender}, their Gender: ${theirPetCollection.gender}")
+      }
+      return theirPetCollection.gender != ourPetCollection?.gender
+    }
 
     override fun filterPossibleMatches(
       myPetMetadata: Pair<String, PetCollection?>,
@@ -137,7 +150,6 @@ class PetMatchDataSource @Inject constructor(
             } else {
               Timber.i("Retrieving local cache location Latitude: ${location.longitude} Longitude: ${location.longitude}")
               LatLng(location.latitude, location.longitude)
-             // LatLng(14.6568, 121.0304)
             }
             val haversineAlgorithm = HaversineAlgorithm(context, from = from)
             filterPossibleMatchesInternal(
@@ -186,7 +198,7 @@ class PetMatchDataSource @Inject constructor(
           // if at least contains one
           for (prefs in preferences) {
             if (myPreferences(myPetCollection)?.contains(prefs) == true) {
-              if (!unstable.contains(metadata)) {
+              if (!unstable.contains(metadata) && isOppositeGender(theirCollection, myPetCollection)) {
                 unstable.add(metadata)
               }
               break
@@ -194,10 +206,11 @@ class PetMatchDataSource @Inject constructor(
           }
         }
       }
+
       Timber.i("---------------------------------------------")
       Timber.i("Stable Marriage preferred matches:")
       unstable.forEach {
-        Timber.i("PetName: ${it.second.name}")
+        Timber.i("PetName: ${it.second.name} Gender: ${it.second.gender}")
       }
       Timber.i("---------------------------------------------")
       // lastly, we calculate their distance and sort it by KMS ascending.
