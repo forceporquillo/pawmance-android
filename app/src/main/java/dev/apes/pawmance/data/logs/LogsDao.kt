@@ -14,4 +14,7 @@ interface LogsDao {
 
   @Query("SELECT * FROM logs")
   fun getAllLogs(): Flow<List<Logs>>
+
+  @Query("DELETE FROM logs")
+  fun clearLogs()
 }
