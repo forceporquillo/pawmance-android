@@ -13,6 +13,8 @@
     <!-- Status bar color. -->
     <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
     <item name="android:windowLightStatusBar">true</item>
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
   </style>
 
   <style name="TextBody1Style" parent="TextAppearance.AppCompat.Body1">
