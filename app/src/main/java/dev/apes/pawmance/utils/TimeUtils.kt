@@ -12,10 +12,12 @@ import java.util.Locale
 @SuppressLint("ConstantLocale")
 object TimeUtils {
 
-  private val dateFormat = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
-
-  private val timeFormat = SimpleDateFormat("MMM dd, hh:mm a", Locale.getDefault())
-  private val timeFormat1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+  private const val DATE_FORMAT = "MMMM dd, yyyy"
+  private const val DATE_MONTH_TIME_FORMAT = "MMM dd, hh:mm a"
+  private const val YEARLY_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss"
+  private val dateFormat = SimpleDateFormat(DATE_FORMAT, Locale.getDefault())
+  private val timeFormat = SimpleDateFormat(DATE_MONTH_TIME_FORMAT, Locale.getDefault())
+  private val timeFormat1 = SimpleDateFormat(YEARLY_DATE_FORMAT, Locale.getDefault())
 
   fun instantTimeLocalize(): Long {
     return hereAndNow().toEpochSecond()
@@ -42,13 +44,16 @@ object TimeUtils {
     return timeFormat1.format(getCalendarTime(timestamp.toString()).time)
   }
 
-  fun convertDate(timestamp: String?): String? {
-    if (timestamp == null) {
+  fun convertDate(epochMilli: Long?): String? {
+    if (epochMilli == null) {
       return null
     }
 
-    val calendar = getCalendarTime(timestamp)
-    return dateFormat.format(calendar.time)
+    val formatter = DateTimeFormatter.ofPattern(DATE_FORMAT)
+    val instant = Instant.ofEpochMilli(epochMilli)
+    val dateTime = instant.atZone(ZoneId.systemDefault())
+
+    return dateTime.format(formatter)
   }
 
   fun convertTime(timestamp: String?): String? {
