@@ -129,6 +129,9 @@ data class PetMetadata(
   val collection: PetCollection
 )
 
+val PetInfo?.isFemale
+  get() = this?.petGender().orEmpty() == "Female"
+
 class PetInfo(
   private val petCollection: PetCollection?
 ) : CollectionInfo {
