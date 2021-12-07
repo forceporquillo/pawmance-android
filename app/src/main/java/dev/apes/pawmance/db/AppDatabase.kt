@@ -7,6 +7,8 @@ import androidx.room.RoomDatabase
 import dev.apes.pawmance.data.conversation.ConversationsDao
 import dev.apes.pawmance.data.logs.Logs
 import dev.apes.pawmance.data.logs.LogsDao
+import dev.apes.pawmance.data.progress.DateMated
+import dev.apes.pawmance.data.progress.DateMatedDao
 import dev.apes.pawmance.data.progress.PetProgress
 import dev.apes.pawmance.data.progress.ProgressDao
 import dev.apes.pawmance.model.Conversations
@@ -15,14 +17,16 @@ import dev.apes.pawmance.model.Conversations
   entities = [
     Conversations::class,
     PetProgress::class,
-    Logs::class
+    Logs::class,
+    DateMated::class
   ],
-  version = 2, exportSchema = false
+  version = 1, exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
   abstract fun conversationDao(): ConversationsDao
   abstract fun progressDao(): ProgressDao
   abstract fun logsDao(): LogsDao
+  abstract fun dateMatedDao(): DateMatedDao
 
   companion object {
     private var INSTANCE: AppDatabase? = null
