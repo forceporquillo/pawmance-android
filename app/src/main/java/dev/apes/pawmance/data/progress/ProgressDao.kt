@@ -18,3 +18,13 @@ interface ProgressDao {
   @Query("SELECT * FROM petprogress WHERE day=:day")
   fun getAllProgress(day: String): Flow<PetProgress?>
 }
+
+@Dao
+interface DateMatedDao {
+
+  @Insert(onConflict = OnConflictStrategy.REPLACE)
+  fun dateMated(dateMated: DateMated)
+
+  @Query("SELECT * FROM datemated")
+  fun getDateMated(): Flow<DateMated?>
+}
