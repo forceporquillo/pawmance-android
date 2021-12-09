@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     >
 
@@ -22,93 +23,207 @@
         android:layout_gravity="center"
         android:fontFamily="@font/product_sans_bold"
         android:gravity="center_vertical"
-        android:text="Edit Info" />
+        android:text="@string/edit_info" />
 
   </com.google.android.material.appbar.MaterialToolbar>
 
-  <androidx.constraintlayout.widget.ConstraintLayout
-      android:layout_marginTop="24dp"
-      android:layout_marginEnd="16dp"
-      android:layout_marginStart="16dp"
+  <ScrollView
+      android:clipToPadding="false"
+      android:scrollbars="none"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content">
+      android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_center"
-        android:orientation="vertical"
-        android:layout_width="0dp"
-        app:layout_constraintGuide_percent="0.5"
-        android:layout_height="0dp"/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/pet_name_text_layout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:errorEnabled="true"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:hint="@string/first_name"
-        android:layout_height="wrap_content">
-
-      <com.google.android.material.textfield.TextInputEditText
-          android:id="@+id/pet_name_edit_text"
-          android:text="@{viewModel.petNameFlow}"
+      <androidx.constraintlayout.widget.ConstraintLayout
+          android:paddingBottom="16dp"
+          android:paddingTop="24dp"
+          android:paddingStart="16dp"
+          android:paddingEnd="16dp"
           android:layout_width="match_parent"
-          android:layout_height="wrap_content" />
+          android:layout_height="wrap_content">
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_center"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            app:layout_constraintGuide_percent="0.65"
+            android:layout_height="0dp"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/breed_text_layout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pet_name_text_layout"
-        android:layout_marginTop="12dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="0dp"
-        app:layout_constraintEnd_toEndOf="@id/guideline_center"
-        android:hint="@string/breed"
-        app:errorEnabled="true"
-        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/pet_name_text_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:errorEnabled="true"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:expandedHintEnabled="false"
+            android:layout_width="match_parent"
+            android:hint="@string/first_name"
+            app:startIconDrawable="@drawable/ic_note"
+            android:layout_height="wrap_content">
 
-      <com.google.android.material.textfield.MaterialAutoCompleteTextView
-          android:inputType="textAutoComplete"
-          android:id="@+id/breed_edit_text"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content" />
+          <com.google.android.material.textfield.TextInputEditText
+              tools:text="Tucker Budzyn"
+              android:id="@+id/pet_name_edit_text"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/pet_location_text_layout"
-        app:layout_constraintTop_toBottomOf="@id/breed_text_layout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="match_parent"
-        android:hint="@string/enter_location"
-        app:errorEnabled="true"
-        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/breed_text_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pet_name_text_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            app:errorEnabled="true"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:expandedHintEnabled="false"
+            android:layout_width="0dp"
+            app:layout_constraintEnd_toEndOf="@id/guideline_center"
+            android:hint="@string/breed"
+            app:startIconDrawable="@drawable/ic_pets"
+            android:layout_height="wrap_content">
 
-      <com.google.android.material.textfield.MaterialAutoCompleteTextView
-          android:id="@+id/enter_location_edit_text"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content" />
+          <com.google.android.material.textfield.MaterialAutoCompleteTextView
+              android:inputType="none"
+              android:id="@+id/breed_edit_text"
+              tools:text="Golden Retriever"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
-        app:layout_constraintTop_toBottomOf="@id/pet_location_text_layout"
-        android:textAppearance="@style/TextButtonStyle"
-        android:id="@+id/update_profile_button"
-        android:layout_width="match_parent"
-        android:layout_marginTop="32dp"
-        android:layout_height="wrap_content"
-        android:insetBottom="0dp"
-        android:insetTop="0dp"
-        android:text="@string/update_profile"/>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/pet_location_text_layout"
+            app:layout_constraintTop_toBottomOf="@id/breed_text_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            app:errorEnabled="true"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:expandedHintEnabled="false"
+            android:layout_width="match_parent"
+            android:hint="@string/current_location"
+            android:layout_height="wrap_content">
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
+          <com.google.android.material.textfield.MaterialAutoCompleteTextView
+              tools:text="Fairview, Novaliches, Quezon City, Metro Manila, Philippines"
+              android:id="@+id/current_location_edit_text"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" />
 
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            app:errorEnabled="true"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:expandedHintEnabled="false"
+            app:layout_constraintWidth_percent=".75"
+            android:id="@+id/birthdate_text_layout"
+            app:layout_constraintTop_toBottomOf="@id/pet_location_text_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="0dp"
+            android:hint="@string/my_birthdate"
+            app:startIconDrawable="@drawable/ic_cake"
+            android:layout_height="wrap_content">
+
+          <com.google.android.material.textfield.MaterialAutoCompleteTextView
+              android:inputType="none"
+              tools:text="December 21, 2021"
+              android:id="@+id/birthdate_edit_text"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            app:errorEnabled="true"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:expandedHintEnabled="false"
+            app:layout_constraintWidth_percent=".65"
+            android:id="@+id/preference_text_layout"
+            app:layout_constraintTop_toBottomOf="@id/birthdate_text_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="0dp"
+            android:hint="@string/preference"
+            app:startIconDrawable="@drawable/ic_color"
+            android:layout_height="wrap_content">
+
+          <com.google.android.material.textfield.MaterialAutoCompleteTextView
+              tools:text="With Papers"
+              android:inputType="none"
+              android:id="@+id/preferece_edit_text"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            app:errorEnabled="true"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:expandedHintEnabled="false"
+            app:layout_constraintWidth_percent=".55"
+            android:id="@+id/gender_text_layout"
+            app:layout_constraintTop_toBottomOf="@id/preference_text_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="0dp"
+            android:hint="@string/gender"
+            app:startIconDrawable="@drawable/ic_gender"
+            android:layout_height="wrap_content">
+
+          <com.google.android.material.textfield.MaterialAutoCompleteTextView
+              tools:text="Female"
+              android:inputType="none"
+              android:id="@+id/gender_edit_text"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            app:layout_constraintTop_toBottomOf="@id/gender_text_layout"
+            android:textAppearance="@style/TextButtonStyle"
+            android:id="@+id/update_profile_button"
+            android:layout_width="match_parent"
+            android:layout_marginTop="32dp"
+            android:layout_height="wrap_content"
+            android:insetBottom="0dp"
+            android:insetTop="0dp"
+            android:text="@string/update_profile"/>
+
+      </androidx.constraintlayout.widget.ConstraintLayout>
+
+  </ScrollView>
 </LinearLayout>

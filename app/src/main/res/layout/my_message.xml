@@ -1,46 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="8dp"
-    android:paddingStart="50dp"
-    android:paddingEnd="0dp"
-    android:layout_marginTop="2dp"
-    android:layout_marginBottom="2dp"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent=".15"/>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/message_container"
-        app:cardElevation="0dp"
-        app:layout_constraintHorizontal_bias="1"
-        app:cardBackgroundColor="@color/black"
+    <TextView
+        android:id="@+id/date"
+        style="@style/TextAppearance.AppCompat.Caption"
+        android:padding="8dp"
+        android:layout_gravity="center"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        tools:text="December 4, 2021"/>
 
-        <TextView
-            android:maxLines="100"
-            android:layout_gravity="end"
-            android:id="@+id/my_message_text"
-            android:fontFamily="@font/product_sans_regular"
-            android:textColor="@color/white"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:paddingStart="50dp"
+        android:paddingEnd="0dp"
+        android:layout_marginBottom="2dp">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:text="asdjasdasjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjasdasdasdasdasdasdassssssssssssssssssssssssssssssjjjjjjjjjjjjasdsadsadsadasdasdasdasdasdasdasdasdasdsadjjjjjjjjjjjjjjjjjjjj"/>
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".15"/>
 
-    </com.google.android.material.card.MaterialCardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.card.MaterialCardView
+            app:cardCornerRadius="18dp"
+            android:id="@+id/message_container"
+            app:cardElevation="0dp"
+            app:layout_constraintHorizontal_bias="1"
+            app:cardBackgroundColor="@color/foreground"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:layout_gravity="center"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:textSize="15sp"
+                    android:textColor="@color/black"
+                    android:maxLines="100"
+                    android:layout_gravity="end"
+                    android:id="@+id/my_message_text"
+                    android:fontFamily="@font/product_sans_regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Oqweqweqw"/>
+
+            </FrameLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

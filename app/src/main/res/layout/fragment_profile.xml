@@ -37,6 +37,7 @@
         </androidx.cardview.widget.CardView>
 
         <ImageView
+            android:visibility="gone"
             android:id="@+id/find_match_now"
             android:layout_width="28dp"
             android:layout_height="28dp"

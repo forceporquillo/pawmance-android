@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    >
+
+  <com.google.android.material.appbar.MaterialToolbar
+      android:id="@+id/toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="?attr/actionBarSize"
+      android:theme="@style/Widget.MaterialComponents.Toolbar.Surface"
+      app:contentInsetStartWithNavigation="0dp"
+      app:navigationIcon="@drawable/ic_arrow_back"
+      app:navigationIconTint="@color/black">
+
+    <TextView
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_gravity="center"
+        android:fontFamily="@font/product_sans_bold"
+        android:text="@string/common_symptoms" />
+
+  </com.google.android.material.appbar.MaterialToolbar>
+
+  <com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar
+      android:id="@+id/calendar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:buttonLeft_drawableTintColor="@color/black"
+      app:buttonRight_drawableTintColor="@color/black"
+      app:expandIconColor="@color/black"
+      app:hideArrows="false"
+      app:selectedItem_background="@drawable/circle_solid_background"
+      app:selectedItem_textColor="@color/white"
+      app:textColor="@color/black"
+      app:todayItem_background="@drawable/circle_solid_background_copy"
+      app:todayItem_textColor="@color/white"/>
+
+  <TextView
+      android:padding="16dp"
+      style="@style/TextAppearance.AppCompat.Medium"
+      android:fontFamily="@font/product_sans_bold"
+      android:textColor="@color/black"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Month 1"/>
+
+  <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/symptoms_list"
+      tools:listitem="@layout/symptoms_items"
+      app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"/>
+
+</LinearLayout>

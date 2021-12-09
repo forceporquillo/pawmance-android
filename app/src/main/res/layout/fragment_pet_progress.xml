@@ -10,10 +10,23 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
+        android:paddingEnd="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_arrow_back"
-        app:navigationIconTint="@color/black" />
+        app:navigationIconTint="@color/black" >
+
+        <TextView
+            android:id="@+id/add_mating_date"
+            android:layout_marginEnd="8dp"
+            android:layout_gravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:fontFamily="@font/product_sans_regular"
+            android:text="Add mating date"/>
+
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -106,7 +119,21 @@
                     android:maxLines="1"
                     android:textColor="@color/black"
                     tools:text="Shih Tzu" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:visibility="gone"
+                    android:gravity="center_vertical"
+                    android:drawableTint="@color/black"
+                    android:drawableEnd="@drawable/stream_ui_ic_filled_right_arrow"
+                    tools:text="Date mated: January 2, 2022"
+                    android:id="@+id/mating_date"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/product_sans_regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
             </LinearLayout>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.appbar.AppBarLayout

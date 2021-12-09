@@ -12,14 +12,16 @@
         android:theme="@style/ToolbarTheme"
         app:contentInsetStartWithNavigation="0dp"
         app:navigationIcon="@drawable/ic_arrow_back"
-        app:navigationIconTint="@color/black">
+        app:navigationIconTint="@color/black"
+        >
 
         <TextView
-            style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/product_sans_regular"
-            android:text="@string/add_pet_progress" />
+            android:text="@string/add_pet_progress"
+            style="@style/TextAppearance.AppCompat.Title"
+            />
 
     </com.google.android.material.appbar.MaterialToolbar>
 
@@ -42,7 +44,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             app:hintEnabled="false"
-            app:expandedHintEnabled="false"
+            app:expandedHintEnabled="true"
             app:helperTextEnabled="false"
             app:boxCollapsedPaddingTop="0dp"
             android:layout_width="match_parent"

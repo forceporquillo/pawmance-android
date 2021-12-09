@@ -26,11 +26,21 @@
 
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/chat_list_item"
+    <io.getstream.chat.android.ui.channel.list.ChannelListView
+        app:streamUiChannelTitleTextFont="@font/product_sans_regular"
+        app:streamUiLastMessageDateTextFont="@font/product_sans_regular"
+        app:streamUiLastMessageTextFont="@font/product_sans_regular"
+        app:streamUiUnreadMessageCounterTextFont="@font/product_sans_regular"
+        android:id="@+id/channelListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/chat_item" />
-
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/channelListHeaderView"
+        app:streamUiBackgroundLayoutColor="@color/white"
+        app:streamUiChannelListBackgroundColor="@color/white"
+        app:streamUiChannelOptionsEnabled="true"
+        app:streamUiChannelTitleTextSize="19sp"
+        app:streamUiLastMessageTextSize="14sp"/>
 </LinearLayout>

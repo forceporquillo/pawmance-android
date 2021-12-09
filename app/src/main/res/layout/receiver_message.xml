@@ -24,21 +24,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        app:cardCornerRadius="18dp"
         app:cardBackgroundColor="@color/black"
         app:cardElevation="0dp">
 
-        <TextView
-            android:maxLines="100"
-            android:id="@+id/their_message_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/product_sans_regular"
-            android:paddingStart="12dp"
+        <FrameLayout
+            android:layout_gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:paddingTop="8dp"
-            android:paddingEnd="12dp"
             android:paddingBottom="8dp"
-            android:textColor="@color/white"
-            tools:text="Hello world lorem ipsum dolor set amet" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+            <TextView
+                android:textSize="15sp"
+                android:maxLines="100"
+                android:id="@+id/their_message_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/product_sans_regular"
+                android:textColor="@color/white"
+                tools:text="Hello world lorem ipsum dolor set amet" />
+
+        </FrameLayout>
     </com.google.android.material.card.MaterialCardView>
 </LinearLayout>
