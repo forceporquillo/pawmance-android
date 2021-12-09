@@ -12,6 +12,8 @@ import dev.apes.pawmance.data.auth.FirestorePetInfoStateDataSource
 import dev.apes.pawmance.data.auth.PetInfoStateDataSource
 import dev.apes.pawmance.data.conversation.ConversationRepository
 import dev.apes.pawmance.data.conversation.ConversationRepositoryImpl
+import dev.apes.pawmance.data.conversation.StreamClientConnector
+import dev.apes.pawmance.data.conversation.StreamClientConnectorImpl
 import dev.apes.pawmance.data.info.PetInfoRepository
 import dev.apes.pawmance.data.info.PetInfoRepositoryImpl
 import dev.apes.pawmance.data.location.LocationSearchRepository
@@ -57,4 +59,9 @@ abstract class DataSourceModule {
   abstract fun providesPetProgressDataSource(
     petProgressDataSourceImpl: PetProgressDataSourceImpl
   ): PetProgressDataSource
+
+  @Binds
+  abstract fun providesStreamClientConnector(
+    streamClientConnectorImpl: StreamClientConnectorImpl
+  ): StreamClientConnector
 }
