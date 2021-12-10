@@ -7,13 +7,16 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.children
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.devforcecodes.pawmance.R
+import com.devforcecodes.pawmance.R.string
 import com.devforcecodes.pawmance.databinding.CalendarDayBinding
 import com.devforcecodes.pawmance.databinding.CalendarLegendDayBinding
 import com.devforcecodes.pawmance.databinding.FragmentPetProgressBinding
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.kizitonwose.calendarview.model.CalendarDay
 import com.kizitonwose.calendarview.model.CalendarMonth
 import com.kizitonwose.calendarview.model.DayOwner
@@ -29,6 +32,8 @@ import dev.apes.pawmance.utils.daysOfWeekFromLocale
 import dev.apes.pawmance.utils.navigate
 import dev.apes.pawmance.utils.repeatOnLifecycle
 import kotlinx.coroutines.flow.collect
+import timber.log.Timber
+import timber.log.Timber.Forest
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.ZoneId
@@ -52,12 +57,54 @@ class PetProgressFragment : Fragment(R.layout.fragment_pet_progress) {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    binding.toolbar.setNavigationOnClickListener {
-      findNavController().navigateUp()
+
+    with(binding.toolbar) {
+      setNavigationOnClickListener {
+        findNavController().navigateUp()
+      }
+
+      inflateMenu(R.menu.menu_mating_date)
+      setOnMenuItemClickListener {
+        val itemMenuId = menu.findItem(R.id.mate_date)
+
+        if (it.itemId == itemMenuId.itemId) {
+          showDatePicker()
+        }
+
+        false
+      }
+    }
+
+    binding.matingDate.setOnClickListener {
+      navigate(R.id.action_petProgressFragment_to_symptomsFragment)
+    }
+
+    repeatOnLifecycle {
+      progressViewModel.dateMated.collect {
+        if (it != null) {
+          binding.addMatingDate.text = getString(string.update_mating_date)
+        }
+
+        it ?: return@collect
+        binding.matingDate.isVisible = true
+        binding.matingDate.text = getString(R.string.mating_date, it.dateString)
+      }
     }
 
     getAllProgress()
     observePetProfile()
+  }
+
+  private fun showDatePicker() {
+    val datePicker =
+      MaterialDatePicker.Builder.datePicker()
+        .setTitleText("Select mating date")
+        .build()
+
+    datePicker.show(childFragmentManager, "date_picker")
+    datePicker.addOnPositiveButtonClickListener {
+      progressViewModel.addDateMated(datePicker.headerText, it)
+    }
   }
 
   private fun observePetProfile() {
@@ -99,10 +146,16 @@ class PetProgressFragment : Fragment(R.layout.fragment_pet_progress) {
               R.color.dracula_bottom_toolbar_preview_text
             )
           )
+
           val progress = progressList.find { it.day == day.date.toString() }
 
           if (progress != null) {
-            flightBottomView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
+            flightBottomView.setBackgroundColor(
+              ContextCompat.getColor(
+                requireContext(),
+                R.color.white
+              )
+            )
           }
 
           layout.setBackgroundResource(if (selectedDate == day.date) R.drawable.selected_background else 0)
@@ -167,7 +220,6 @@ class PetProgressFragment : Fragment(R.layout.fragment_pet_progress) {
     )
 
     binding.exFiveCalendar.scrollToMonth(currentMonth)
-
   }
 
   inner class MonthViewContainer(view: View) : ViewContainer(view) {
@@ -198,5 +250,4 @@ class PetProgressFragment : Fragment(R.layout.fragment_pet_progress) {
       }
     }
   }
-
 }
