@@ -3,6 +3,7 @@ package dev.apes.pawmance.ui.progress
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.apes.pawmance.data.progress.DateMated
 import dev.apes.pawmance.data.progress.PetProgress
 import dev.apes.pawmance.data.progress.PetProgressDataSource
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,11 +26,27 @@ class PetProgressViewModel @Inject constructor(
   private val _progressByDay = MutableStateFlow<PetProgress?>(null)
   val progressByDay = _progressByDay.asStateFlow()
 
+  private val _dateMated = MutableStateFlow<DateMated?>(null)
+  val dateMated = _dateMated.asStateFlow()
+
   init {
     viewModelScope.launch {
-      petProgressDataSource.getAllProgress().collect {
-        _allProgress.value = it
+      launch {
+        petProgressDataSource.getAllProgress().collect {
+          _allProgress.value = it
+        }
       }
+      launch {
+        petProgressDataSource.getMatedDate().collect {
+          _dateMated.value = it
+        }
+      }
+    }
+  }
+
+  fun addDateMated(dateInString: String, timeInMillis: Long) {
+    viewModelScope.launch {
+      petProgressDataSource.addMatingDate(DateMated(dateInString, timeInMillis))
     }
   }
 
@@ -57,7 +74,7 @@ class PetProgressViewModel @Inject constructor(
     }
 
     viewModelScope.launch {
-      val petProgress = PetProgress(note!!, day!!)
+      val petProgress = PetProgress(note!!, false, day!!)
       petProgressDataSource.addProgressNote(petProgress)
     }
   }
