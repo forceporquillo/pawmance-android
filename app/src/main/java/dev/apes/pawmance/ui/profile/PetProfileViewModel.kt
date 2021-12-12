@@ -6,18 +6,22 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.apes.pawmance.data.auth.PetInfo
 import dev.apes.pawmance.data.auth.PetInfoStateDataSource
+import dev.apes.pawmance.data.conversation.StreamClientConnector
 import dev.apes.pawmance.data.info.PetInfoRepository
 import dev.apes.pawmance.ui.signin.SignInViewModelDelegate
 import dev.apes.pawmance.utils.Result
 import dev.apes.pawmance.utils.successOr
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import timber.log.Timber.Forest
 import javax.inject.Inject
 
 @HiltViewModel
 class PetProfileViewModel @Inject constructor(
   private val petInfoStateDataSource: PetInfoStateDataSource,
   private val petInfoRepository: PetInfoRepository,
+  private val streamClientConnector: StreamClientConnector,
   signInViewModelDelegate: SignInViewModelDelegate
 ) : ViewModel(), SignInViewModelDelegate by signInViewModelDelegate {
 
@@ -34,11 +38,18 @@ class PetProfileViewModel @Inject constructor(
     val data: Uri? = null
   )
 
+  private var called = false
+
   init {
     viewModelScope.launch {
-      signInViewModelDelegate.userId.map {
+      userId.map {
         petInfoStateDataSource.getCollectionInfo(it ?: return@map).collect { result ->
-          _petInfo.value = result.successOr(null)
+          _petInfo.value = result.successOr(null).also { petInfo ->
+            if (!called) {
+              streamClientConnector.connectUser(it, petInfo ?: return@collect).first()
+              called = true
+            }
+          }
         }
       }.collect()
     }
@@ -62,5 +73,10 @@ class PetProfileViewModel @Inject constructor(
         petInfoRepository.updatePetBreed(userId ?: "", breed)
       }
     }
+  }
+
+  override fun onCleared() {
+    super.onCleared()
+    streamClientConnector.disconnectUser(userIdValue ?: return)
   }
 }
