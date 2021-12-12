@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.devforcecodes.pawmance.R
 import com.devforcecodes.pawmance.R.layout
 import com.devforcecodes.pawmance.databinding.FragmentEditInfoBinding
+import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.apes.pawmance.binding.viewBinding
@@ -35,6 +36,9 @@ class EditPetInfoFragment : Fragment(R.layout.fragment_edit_info) {
 
   private val binding by viewBinding(FragmentEditInfoBinding::bind)
 
+  private fun createAdapter(items: Array<String>) =
+    ArrayAdapter(requireContext(), layout.dropdown_menu_popup, items)
+
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
@@ -42,7 +46,20 @@ class EditPetInfoFragment : Fragment(R.layout.fragment_edit_info) {
       viewModel.petInfo.collect {
         binding.petNameEditText.setText(it?.petName())
         binding.breedEditText.setText(it?.petBreed())
-        binding.enterLocationEditText.setText(it?.location()?.placeName)
+        binding.currentLocationEditText.setText(it?.location()?.placeName)
+        binding.birthdateEditText.setText(it?.petBirthdate())
+        binding.genderEditText.setText(it?.petGender())
+        binding.prefereceEditText.setText(it?.petPreferences()?.joinToString { it })
+
+        binding.breedEditText.apply {
+          addTextChangedListener {
+            petNameViewModel.breedName = it.toString()
+          }
+        }
+
+        binding.breedEditText.setAdapter(createAdapter(Constants.BREEDS))
+        binding.genderEditText.setAdapter(createAdapter(Constants.GENDER))
+        binding.prefereceEditText.setAdapter(createAdapter(Constants.PREFERENCES))
       }
     }
 
@@ -62,24 +79,28 @@ class EditPetInfoFragment : Fragment(R.layout.fragment_edit_info) {
       petNameViewModel.petName = it.toString()
     }
 
-    binding.breedEditText.apply {
-      addTextChangedListener {
-        petNameViewModel.breedName = it.toString()
-      }
+    binding.birthdateEditText.setOnClickListener { showDatePicker() }
+    binding.birthdateEditText.setOnItemClickListener { _, _, _, _ -> showDatePicker() }
 
-      val adapter = ArrayAdapter(requireContext(), R.layout.dropdown_menu_popup, Constants.BREEDS)
-      setAdapter(adapter)
+    binding.birthdateEditText.addTextChangedListener {
+      petNameViewModel.birthdate = it.toString()
     }
 
-    binding.enterLocationEditText.apply {
+    binding.prefereceEditText.addTextChangedListener {
+      petNameViewModel.preference = it.toString()
+    }
+
+    binding.genderEditText.addTextChangedListener {
+      petNameViewModel.gender = it.toString()
+    }
+
+    binding.currentLocationEditText.apply {
       setOnItemClickListener { _, _, index, _ ->
-        Timber.e("setOnItemClickListener")
         val prediction = locationViewModel.placesResults.value[index]
         locationViewModel.getMyLocationData(prediction)
       }
 
       addTextChangedListener { query ->
-        Timber.e("addTextChangedListener $query")
         locationViewModel.searchPlace(query.toString())
       }
 
@@ -91,6 +112,18 @@ class EditPetInfoFragment : Fragment(R.layout.fragment_edit_info) {
           showDropDown()
         }
       }
+    }
+  }
+
+  private fun showDatePicker() {
+    val datePicker =
+      MaterialDatePicker.Builder.datePicker()
+        .setTitleText("Select date")
+        .build()
+
+    datePicker.show(childFragmentManager, "date_picker")
+    datePicker.addOnPositiveButtonClickListener {
+      binding.birthdateEditText.setText(datePicker.headerText)
     }
   }
 }
