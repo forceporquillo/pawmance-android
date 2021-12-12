@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <item
+      app:iconTint="@color/black"
+      android:id="@+id/mate_date"
+      android:icon="@drawable/ic_date"
+      app:showAsAction="always"
+      android:title="Mating Date" />
+
+</menu>
