@@ -37,6 +37,7 @@ class MatchPetFragment : Fragment(R.layout.fragment_match_pet), CardStackListene
 
   private val viewModel by viewModels<PetProfileViewModel>()
   private val binding by viewBinding(FragmentMatchPetBinding::bind)
+  private val pushNotificationViewModel by viewModels<MatchNotificationViewModel>()
 
   private lateinit var manager: MatchingCardStackManager
   private lateinit var matchingSwipeAdapter: PetMatchingSwipeAdapter
@@ -96,6 +97,8 @@ class MatchPetFragment : Fragment(R.layout.fragment_match_pet), CardStackListene
         Timber.i("You like ${it.name}")
 
         matchPetViewModel.setLikedPet(it.id)
+
+        it.tokenId?.let { token -> pushNotificationViewModel.notifyYouLike(token) }
 
         if (it.isMatch) {
           val bundle = Bundle().apply {
