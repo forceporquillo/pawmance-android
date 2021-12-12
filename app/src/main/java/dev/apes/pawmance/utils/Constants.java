@@ -14,6 +14,14 @@ public class Constants {
       "July", "August", "September", "October", "November", "December"
   };
 
+  public static String[]  PREFERENCES  = new String[] {
+      "With Papers", "Without Papers"
+  };
+
+  public static String[] GENDER = new String[] {
+      "Male", "Female"
+  };
+
   public static final HashMap<Integer, String> MONTHS_MAP =
       new HashMap<Integer, String>() {
         {
