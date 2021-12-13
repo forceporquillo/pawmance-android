@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.devforcecodes.pawmance.R
@@ -16,6 +17,7 @@ import com.zhihu.matisse.engine.impl.GlideEngine
 import com.zhihu.matisse.filter.Filter
 import dagger.hilt.android.AndroidEntryPoint
 import dev.apes.pawmance.binding.viewBinding
+import dev.apes.pawmance.data.auth.isFemale
 import dev.apes.pawmance.ui.photos.PetPhotosFragment
 import dev.apes.pawmance.utils.bindImageWith
 import dev.apes.pawmance.utils.navigate
@@ -40,6 +42,10 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
           binding.name.text = it?.petName()
           binding.breedType.text = it?.petBreed()
           binding.location.text = it?.location()?.placeName
+
+          binding.root.post {
+            binding.findMatchNow.isVisible = it.isFemale
+          }
         }
       }
 
