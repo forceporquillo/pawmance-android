@@ -54,8 +54,15 @@ class PetInfoRepositoryImpl @Inject constructor(
 ) : PetInfoRepository {
 
   override fun addPetName(petName: PetName): Flow<Result<Boolean>> {
-    val (id, name, breed) = petName
-    return addToUserCollection(id, mapOf("name" to name, "breed" to breed))
+    return addToUserCollection(petName.id,
+      mapOf(
+        "name" to petName.name,
+        "breed" to petName.breed,
+        "birthdate" to petName.birthdate,
+        "gender" to petName.gender,
+        "preferences" to listOf(petName.preference)
+      )
+    )
   }
 
   override fun addPetBirthdate(id: String, birthDate: String): Flow<Result<Boolean>> {
