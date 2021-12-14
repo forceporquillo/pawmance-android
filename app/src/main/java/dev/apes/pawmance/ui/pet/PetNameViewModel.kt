@@ -27,6 +27,18 @@ class PetNameViewModel @Inject constructor(
   private val _breedName = MutableStateFlow("")
   val breedNameFlow = _breedName.asStateFlow()
 
+  private val _locationFlow = MutableStateFlow("")
+  val locationFlow = _locationFlow.asStateFlow()
+
+  private val _birthdateFlow = MutableStateFlow("")
+  val birthdateFlow = _birthdateFlow.asStateFlow()
+
+  private val _preferenceFlow = MutableStateFlow("")
+  val preferenceFlow = _preferenceFlow.asStateFlow()
+
+  private val _genderFlow = MutableStateFlow("")
+  val genderFlow = _genderFlow.asStateFlow()
+
   init {
     viewModelScope.launch {
       _petName.collect { enableSubmitButton(it.isNotEmpty()) }
@@ -46,10 +58,42 @@ class PetNameViewModel @Inject constructor(
       field = value
     }
 
+  var currentLocation = _locationFlow.value
+    set(value) {
+      _locationFlow.value = value
+      field = value
+    }
+
+  var birthdate = _birthdateFlow.value
+    set(value) {
+      _birthdateFlow.value = value
+      field = value
+    }
+
+  var preference = _preferenceFlow.value
+    set(value) {
+      _preferenceFlow.value = value
+      field = value
+    }
+
+  var gender = _genderFlow.value
+    set(value) {
+      _genderFlow.value = value
+      field = value
+    }
+
+
   fun onContinueClick() {
     viewModelScope.launch {
       val pet =
-        PetName(signInViewModelDelegate.userIdValue!!, _petName.value, _breedName.value)
+        PetName(
+          signInViewModelDelegate.userIdValue!!,
+          _petName.value,
+          _breedName.value,
+          birthdate,
+          preference,
+          gender
+        )
       petInfoRepository.addPetName(pet).collect(::filterResult)
     }
   }
