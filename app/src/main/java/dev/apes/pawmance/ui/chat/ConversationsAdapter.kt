@@ -47,11 +47,11 @@ class ConversationsAdapter :
   }
 
   override fun getItemViewType(position: Int): Int {
-    return if (getItem(position).fromSender) SENDER else RECEIVER
+    return if (getItem(position) is ConversationUiModel.SenderUiModel) SENDER else RECEIVER
   }
 
   companion object {
-    private const val SENDER = 0
-    private const val RECEIVER = 1
+    const val SENDER = 0
+    const val RECEIVER = 1
   }
 }
