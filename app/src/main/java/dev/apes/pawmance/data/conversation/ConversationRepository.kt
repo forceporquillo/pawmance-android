@@ -35,7 +35,7 @@ class ConversationRepositoryImpl @Inject constructor(
     insertMessage(messageData, petId)
     withContext(ioDispatcher) {
       try {
-        pushMessageNotifierApi.sendMessage(PushMessage(recipientToken, messageData))
+        //pushMessageNotifierApi.sendMessage(PushMessage(recipientToken, messageData))
       } catch (e: Exception) {
         Timber.e(e)
       }
@@ -48,9 +48,8 @@ class ConversationRepositoryImpl @Inject constructor(
         messageData.content,
         messageData.petName,
         messageData.petId,
-        messageData.timestamp,
-        false,
-        petId!!,
+        fromSender = false,
+        recipientId = petId!!,
       )
 
       conversationsDao.insertMessage(conversation)
