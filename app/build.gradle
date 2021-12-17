@@ -124,4 +124,12 @@ dependencies {
     implementation 'androidx.room:room-ktx:2.3.0'
     kapt "androidx.room:room-compiler:2.3.0"
 
+    implementation "io.getstream:stream-chat-android-ui-components:4.23.0"
+    implementation "io.getstream:stream-chat-android-pushprovider-firebase:4.23.0"
+
+    implementation "androidx.startup:startup-runtime:1.1.0"
+
+    implementation "io.karn:notify:1.4.0"
+
+    implementation 'com.github.shrikanth7698:Collapsible-Calendar-View-Android:v1.0.3'
 }
