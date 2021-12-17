@@ -76,6 +76,13 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_petProgressFragment_to_symptomsFragment"
+            app:destination="@id/symptomsFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
     <fragment
@@ -102,7 +109,7 @@
 
     <fragment
         android:id="@+id/chatFragment"
-        android:name="dev.apes.pawmance.ui.chat.ChatFragment"
+        android:name="dev.apes.pawmance.ui.chat.ChatChannelListFragment"
         android:label="ChatFragment"
         tools:layout="@layout/fragment_chat" >
         <action
@@ -140,5 +147,10 @@
         android:name="dev.apes.pawmance.ui.logs.LogsFragment"
         android:label="LogsFragment"
         tools:layout="@layout/fragment_logs"/>
+    <fragment
+        android:id="@+id/symptomsFragment"
+        android:name="dev.apes.pawmance.ui.progress.SymptomsFragment"
+        android:label="SymptomsFragment"
+        tools:layout="@layout/fragment_symptoms"/>
 
 </navigation>
