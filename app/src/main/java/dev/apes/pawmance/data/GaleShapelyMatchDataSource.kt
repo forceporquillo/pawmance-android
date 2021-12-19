@@ -149,7 +149,8 @@ class PetMatchDataSource @Inject constructor(
               LatLng(myLocation?.lat ?: 0.0, myLocation?.lng ?: 0.0)
             } else {
               Timber.i("Retrieving local cache location Latitude: ${location.longitude} Longitude: ${location.longitude}")
-              LatLng(location.latitude, location.longitude)
+              //LatLng(location.latitude, location.longitude)
+              LatLng(14.6537, 121.0338)
             }
             val haversineAlgorithm = HaversineAlgorithm(context, from = from)
             filterPossibleMatchesInternal(
