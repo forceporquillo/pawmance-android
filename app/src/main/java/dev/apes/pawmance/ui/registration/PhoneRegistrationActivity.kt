@@ -13,6 +13,7 @@ import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCall
 import dagger.hilt.android.AndroidEntryPoint
 import dev.apes.pawmance.utils.repeatOnLifecycle
 import kotlinx.coroutines.flow.collect
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -35,6 +36,7 @@ class PhoneRegistrationActivity : BaseRegistrationActivity(R.navigation.registra
         "onVerificationFailed: $exception",
         Toast.LENGTH_SHORT
       ).show()
+      Timber.e(exception.message)
     }
 
     override fun onCodeSent(
@@ -43,6 +45,7 @@ class PhoneRegistrationActivity : BaseRegistrationActivity(R.navigation.registra
     ) {
       super.onCodeSent(verificationId, token)
       viewModel.onCodeSent(verificationId, token)
+      Timber.e(verificationId)
     }
   }
 
