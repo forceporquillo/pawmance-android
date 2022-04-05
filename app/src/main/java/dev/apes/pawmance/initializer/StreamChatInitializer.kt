@@ -29,7 +29,7 @@ class StreamChatInitializer : Initializer<Unit> {
      */
     val logLevel = if (BuildConfig.DEBUG) ChatLogLevel.ALL else ChatLogLevel.NOTHING
     val chatClient: ChatClient =
-      ChatClient.Builder("d4ur7bzhfjbz", context)
+      ChatClient.Builder("vcag9ezdvgq8", context)
         .notifications(createNotificationConfig(), createNotificationHandler(context))
         .logLevel(logLevel)
         .build()
