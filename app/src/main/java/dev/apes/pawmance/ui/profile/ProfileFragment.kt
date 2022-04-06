@@ -91,6 +91,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
           }
         }
       }
+      launch {
+        viewModel.load()
+      }
     }
   }
 
