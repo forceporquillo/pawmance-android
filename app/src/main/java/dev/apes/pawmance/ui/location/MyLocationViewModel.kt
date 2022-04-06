@@ -4,10 +4,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.apes.pawmance.data.info.PetInfoRepository
 import dev.apes.pawmance.data.location.LocationSearchRepository
-import dev.apes.pawmance.model.Coordinates
-import dev.apes.pawmance.model.MyLocation
-import dev.apes.pawmance.model.PlaceAutoCompleteResponse
-import dev.apes.pawmance.model.Prediction
+import dev.apes.pawmance.model.*
 import dev.apes.pawmance.ui.registration.CompletePetDetailsViewModel
 import dev.apes.pawmance.utils.Result
 import dev.apes.pawmance.utils.cancelIfActive
@@ -123,6 +120,19 @@ class MyLocationViewModel @Inject constructor(
         filterResult(result)
       }
     }
+  }
+
+  init {
+
+    addMyLocation(
+      MyLocation(
+     coordinates = Coordinates(
+        14.604119,
+        120.9886247
+      ),
+      placeId = "ChIJWbJOsfjJlzMRjgaarMoSTa0",
+      placeName = "FEU Institute of Technology, P. Paredes Street, Sampaloc, Manila, Metro Manila, Philippines"
+    ))
   }
 
   private fun processSearchResult(result: Result<PlaceAutoCompleteResponse>) {
