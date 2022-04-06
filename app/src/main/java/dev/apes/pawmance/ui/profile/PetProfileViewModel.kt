@@ -40,7 +40,7 @@ class PetProfileViewModel @Inject constructor(
 
   private var called = false
 
-  init {
+  fun load() {
     viewModelScope.launch {
       userId.map {
         petInfoStateDataSource.getCollectionInfo(it ?: return@map).collect { result ->
