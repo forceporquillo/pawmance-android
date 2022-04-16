@@ -50,14 +50,6 @@ class StreamClientConnectorImpl @Inject constructor(
       extraData = info.extraData
     )
 
-    // Timber.e("userId $userId")
-    // val tokenProvider = object : TokenProvider {
-    //   override fun loadToken(): String {
-    //     Timber.i("tokenId ${info.getPetTokenId()}")
-    //     return info.getPetTokenId().orEmpty()
-    //   }
-    // }
-
     try {
       val devToken = chatClient.devToken(userId)
       val result = chatClient.connectUser(user, devToken).await()
